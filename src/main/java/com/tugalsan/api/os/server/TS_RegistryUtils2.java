@@ -221,7 +221,7 @@ public class TS_RegistryUtils2 {
                 rc = deleteKey(userRoot, hkey, key);
             }
             if (rc != REG_SUCCESS()) {
-                TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.key=" + key);
             }
         });
     }
