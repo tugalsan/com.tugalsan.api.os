@@ -4,6 +4,7 @@ module com.tugalsan.api.os {
     requires jdk.management;
     requires com.sun.jna.platform;
     requires com.tugalsan.api.string;
+    requires com.tugalsan.api.unsafe;
     requires com.tugalsan.api.charset;
     requires com.tugalsan.api.time;
     requires com.tugalsan.api.random;

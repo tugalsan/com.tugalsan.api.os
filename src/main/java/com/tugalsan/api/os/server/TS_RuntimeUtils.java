@@ -2,6 +2,7 @@ package com.tugalsan.api.os.server;
 
 import com.tugalsan.api.random.server.*;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.unsafe.client.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -14,7 +15,7 @@ public class TS_RuntimeUtils {
     }
 
     public static String runConsole_readResult(String[] commandLines) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             var className = TS_RuntimeUtils.class.getSimpleName();
             var funcName = "runConsole_readResult";
             var arrow = " -> ";
@@ -26,13 +27,11 @@ public class TS_RuntimeUtils {
             try ( var input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                 return input.lines().collect(Collectors.joining("\n"));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static String runConsole_readResult(CharSequence commandLine) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             var className = TS_RuntimeUtils.class.getSimpleName();
             var funcName = "runConsole_readResult";
             var arrow = " -> ";
@@ -41,13 +40,11 @@ public class TS_RuntimeUtils {
             try ( var input = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
                 return input.lines().collect(Collectors.joining("\n"));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static String runConsoleBAT_readResult(CharSequence batCode) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             var file = File.createTempFile("tmp" + TS_RandomUtils.nextString(5, true, true, false, false, null), ".bat");
             file.delete();
             try ( var fw = new FileWriter(file);) {
@@ -65,13 +62,11 @@ public class TS_RuntimeUtils {
                 file.delete();
                 return result.toString();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static String runConsoleVBS_readResult(CharSequence vbCode) {
-        try {
+        return TGS_UnSafe.compile(() -> {
             var file = File.createTempFile("tmp", ".vbs");
             file.delete();
             try ( var fw = new FileWriter(file);) {
@@ -89,9 +84,7 @@ public class TS_RuntimeUtils {
                 file.delete();
                 return result.toString();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     public static void execute(CharSequence programCommand, CharSequence fileCommand) {
@@ -106,11 +99,7 @@ public class TS_RuntimeUtils {
     }
 
     public static void execute(String commandLine) {
-        try {
-            Runtime.getRuntime().exec(commandLine);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        TGS_UnSafe.execute(() -> Runtime.getRuntime().exec(commandLine));
     }
 
     public static String constructJarExecuterString(CharSequence file, List<String> args) {

@@ -5,6 +5,7 @@ import java.util.*;
 import com.tugalsan.api.charset.client.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.unsafe.client.*;
 
 public class TS_JavaUtils {
 
@@ -47,11 +48,9 @@ public class TS_JavaUtils {
     }
 
     public static Path getJarPath() {
-        try {
+        return TGS_UnSafe.compile(() -> {
             var codeSource = TS_JavaUtils.class.getProtectionDomain().getCodeSource();
             return Path.of(codeSource.getLocation().toURI().getPath());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 }
