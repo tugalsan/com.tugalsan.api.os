@@ -20,7 +20,7 @@ public class TS_RuntimeUtils {
             var funcName = "runConsole_readResult";
             var arrow = " -> ";
             System.out.println(String.join("", className, arrow, funcName, arrow, executionPath().toString()));
-            Arrays.asList(commandLines).forEach(line -> {
+            Arrays.stream(commandLines).forEach(line -> {
                 System.out.println(arrow + line);
             });
             var p = Runtime.getRuntime().exec(commandLines);
