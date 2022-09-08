@@ -47,7 +47,7 @@ public class TS_Process {
         return exitValue == 0;
     }
 
-    public static enum FileType {
+    public static enum CodeType {
         BAT,
         VBS
     }
@@ -66,13 +66,18 @@ public class TS_Process {
         }, exception -> this.exception = exception);
     }
 
-    private TS_Process(CharSequence fileCode, FileType fileType) {
+    private TS_Process(CharSequence code, CodeType codeType) {
         TGS_UnSafe.execute(() -> {
-            var fileSuffix = fileType == FileType.BAT ? "bat" : (fileType == FileType.VBS ? "vbs" : null);
+            var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
+            if (fileSuffix == null) {
+                TGS_UnSafe.catchMeIfUCan(TS_Process.class.getSimpleName(),
+                        "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
+                        "CodeType not recognized!");
+            }
             var file = File.createTempFile("tmp" + TS_RandomUtils.nextString(5, true, true, false, false, null), "." + fileSuffix);
             file.delete();
             try ( var fw = new FileWriter(file);) {
-                fw.write(fileCode.toString());
+                fw.write(code.toString());
             }
             this.process = Runtime.getRuntime().exec(commandTokens);
             process();
@@ -108,8 +113,8 @@ public class TS_Process {
         return new TS_Process(commandTokens);
     }
 
-    public static TS_Process ofCode(CharSequence fileCode, FileType fileType) {
-        return new TS_Process(fileCode, fileType);
+    public static TS_Process ofCode(CharSequence code, CodeType codeType) {
+        return new TS_Process(code, codeType);
     }
 
     public static TS_Process ofPrg(CharSequence programCommand, CharSequence fileCommand) {
