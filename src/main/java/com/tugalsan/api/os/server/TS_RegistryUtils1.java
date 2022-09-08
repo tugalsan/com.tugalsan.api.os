@@ -5,8 +5,8 @@ import com.tugalsan.api.string.client.*;
 public class TS_RegistryUtils1 {
 
     public static String readRegistry(CharSequence location, CharSequence key) {
-        var cmd = TGS_StringUtils.concat("reg query " , "\"" , location , "\" /v " , key);
-        return TS_RuntimeUtils.runConsole_readResult(cmd);
+        var cmd = TGS_StringUtils.concat("reg query ", "\"", location, "\" /v ", key);
+        return TS_Process.of(cmd).output;
     }
 
     public static void main(String[] args) {
