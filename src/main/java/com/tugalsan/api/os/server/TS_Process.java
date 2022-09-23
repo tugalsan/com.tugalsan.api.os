@@ -1,6 +1,6 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.list.client.TGS_ListCastUtils;
+import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
@@ -98,7 +98,7 @@ public class TS_Process {
     }
 
     private TS_Process(CharSequence commandLine) {
-        this(TGS_ListCastUtils.toString(new StringTokenizer(commandLine.toString(), " ")));
+        this(TS_ListCastUtils.toString(new StringTokenizer(commandLine.toString(), " ")));
     }
 
     public static TS_Process of(CharSequence commandLine) {
