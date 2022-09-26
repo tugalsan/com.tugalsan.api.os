@@ -17,11 +17,11 @@ public class TS_JavaUtils {
     }
 
     public static String getVersion() {
-        return TGS_CharacterSets.toLowerCase_TR(System.getProperty("java.version"));
+        return TGS_CharSet.toLowerCase_TR(System.getProperty("java.version"));
     }
 
     public static String getName() {
-        return TGS_CharacterSets.toLowerCase_TR(System.getProperty("java.vendor"));
+        return TGS_CharSet.toLowerCase_TR(System.getProperty("java.vendor"));
     }
 
     public static Path getPathJava() {
