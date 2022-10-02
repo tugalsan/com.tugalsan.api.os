@@ -10,7 +10,7 @@ import com.tugalsan.api.unsafe.client.*;
 public class TS_JavaUtils {
 
     private static List<Path> toPaths(CharSequence list, CharSequence delimiter) {
-        return TGS_StreamUtils.toList(
+        return TGS_StreamUtils.toLst(
                 Arrays.stream(list.toString().split(delimiter.toString()))
                         .map(split -> Path.of(split))
         );

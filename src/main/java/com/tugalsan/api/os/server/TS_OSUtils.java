@@ -77,7 +77,7 @@ public class TS_OSUtils {
 
     //PRIVATE
     private static List<Path> toPaths(CharSequence list, CharSequence delimiter) {
-        return TGS_StreamUtils.toList(
+        return TGS_StreamUtils.toLst(
                 Arrays.stream(list.toString().split(delimiter.toString()))
                         .map(split -> Path.of(split))
         );
