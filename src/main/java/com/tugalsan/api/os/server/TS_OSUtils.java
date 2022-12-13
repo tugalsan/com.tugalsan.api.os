@@ -1,5 +1,6 @@
 package com.tugalsan.api.os.server;
 
+import com.tugalsan.api.cast.client.TGS_CastUtils;
 import java.lang.management.*;
 import java.nio.file.*;
 import java.util.*;
@@ -22,6 +23,29 @@ public class TS_OSUtils {
 
     public static String getVersion() {
         return TGS_CharSetCast.toLowerCaseFixed(System.getProperty("os.version"));
+    }
+
+    public static Double getVersionNumber() {
+        var verStr = getVersion();
+        if (verStr == null) {
+            return null;
+        }
+        if (TGS_CastUtils.isDouble(verStr)) {
+            return TGS_CastUtils.toDouble(verStr);
+        }
+        var alphaIdx = -1;
+        for (var i = 0; i < verStr.length(); i++) {
+            if (TGS_CastUtils.isInteger(verStr.charAt(i) + "")) {
+                continue;
+            }
+            alphaIdx = i;
+            break;
+        }
+        verStr = verStr.substring(0, alphaIdx);
+        if (verStr.isEmpty()) {
+            return null;
+        }
+        return TGS_CastUtils.toDouble(verStr);
     }
 
     public static boolean isWindows() {
