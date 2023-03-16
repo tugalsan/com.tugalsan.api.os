@@ -18,11 +18,11 @@ public class TS_OSUtils {
     }
 
     public static String getName() {
-        return TGS_CharSetCast.toLowerCaseFixed(System.getProperty("os.name"));
+        return TGS_CharSetCast.toLowerCase(System.getProperty("os.name"));
     }
 
     public static String getVersion() {
-        return TGS_CharSetCast.toLowerCaseFixed(System.getProperty("os.version"));
+        return TGS_CharSetCast.toLowerCase(System.getProperty("os.version"));
     }
 
     public static Double getVersionNumber() {
