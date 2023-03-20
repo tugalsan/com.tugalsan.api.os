@@ -1,5 +1,6 @@
 package com.tugalsan.api.os.server;
 
+import com.sun.jna.Platform;
 import com.tugalsan.api.cast.client.TGS_CastUtils;
 import java.lang.management.*;
 import java.nio.file.*;
@@ -17,12 +18,24 @@ public class TS_OSUtils {
         return (int) ramInMBytes;
     }
 
+    public static boolean platformWindows() {
+        return Platform.isWindows();
+    }
+
+    public static boolean platformAndroid() {
+        return Platform.isAndroid();
+    }
+
+    public static boolean platformLinux() {
+        return Platform.isLinux();
+    }
+
     public static String getName() {
-        return TGS_CharSetCast.toLowerCase(System.getProperty("os.name"));
+        return TGS_CharSetCast.toLocaleLowerCase(System.getProperty("os.name"));
     }
 
     public static String getVersion() {
-        return TGS_CharSetCast.toLowerCase(System.getProperty("os.version"));
+        return TGS_CharSetCast.toLocaleLowerCase(System.getProperty("os.version"));
     }
 
     public static Double getVersionNumber() {
