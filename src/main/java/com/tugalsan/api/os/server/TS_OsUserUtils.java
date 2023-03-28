@@ -4,7 +4,7 @@ import com.tugalsan.api.string.client.*;
 import java.nio.file.Path;
 import java.util.StringJoiner;
 
-public class TS_UserUtils {
+public class TS_OsUserUtils {
 
     public static String getUserName() {
         return System.getProperty("user.name");

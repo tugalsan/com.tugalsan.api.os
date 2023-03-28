@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
-public class TS_Process {
+public class TS_OsProcess {
 
     public static Path executionPath() {
         return Path.of(System.getProperty("user.dir"));
@@ -21,7 +21,7 @@ public class TS_Process {
 
     public static String constructJarExecuterString(CharSequence file, List<String> args) {
         var sb = new StringBuilder()
-                .append("\"").append(TS_JavaUtils.getPathJava()).append("\"")
+                .append("\"").append(TS_OsJavaUtils.getPathJava()).append("\"")
                 .append(" -jar ")
                 .append("\"").append(file).append("\" ");
         args.stream().forEachOrdered(s -> sb.append(" ").append(s));
@@ -66,11 +66,11 @@ public class TS_Process {
         }, exception -> this.exception = exception);
     }
 
-    private TS_Process(CharSequence code, CodeType codeType) {
+    private TS_OsProcess(CharSequence code, CodeType codeType) {
         TGS_UnSafe.execute(() -> {
             var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
             if (fileSuffix == null) {
-                TGS_UnSafe.catchMeIfUCan(TS_Process.class.getSimpleName(),
+                TGS_UnSafe.catchMeIfUCan(TS_OsProcess.class.getSimpleName(),
                         "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
                         "CodeType not recognized!");
             }
@@ -85,7 +85,7 @@ public class TS_Process {
         }, exception -> this.exception = exception);
     }
 
-    private TS_Process(String[] commandTokens) {
+    private TS_OsProcess(String[] commandTokens) {
         TGS_UnSafe.execute(() -> {
             this.commandTokens = commandTokens;
             this.process = Runtime.getRuntime().exec(commandTokens);
@@ -93,37 +93,37 @@ public class TS_Process {
         }, exception -> this.exception = exception);
     }
 
-    private TS_Process(List<String> commandTokens) {
+    private TS_OsProcess(List<String> commandTokens) {
         this(commandTokens.toArray(String[]::new));
     }
 
-    private TS_Process(CharSequence commandLine) {
+    private TS_OsProcess(CharSequence commandLine) {
         this(TS_ListCastUtils.toString(new StringTokenizer(commandLine.toString(), " ")));
     }
 
-    public static TS_Process of(CharSequence commandLine) {
-        return new TS_Process(commandLine);
+    public static TS_OsProcess of(CharSequence commandLine) {
+        return new TS_OsProcess(commandLine);
     }
 
-    public static TS_Process of(List<String> commandTokens) {
-        return new TS_Process(commandTokens);
+    public static TS_OsProcess of(List<String> commandTokens) {
+        return new TS_OsProcess(commandTokens);
     }
 
-    public static TS_Process of(String[] commandTokens) {
-        return new TS_Process(commandTokens);
+    public static TS_OsProcess of(String[] commandTokens) {
+        return new TS_OsProcess(commandTokens);
     }
 
-    public static TS_Process ofCode(CharSequence code, CodeType codeType) {
-        return new TS_Process(code, codeType);
+    public static TS_OsProcess ofCode(CharSequence code, CodeType codeType) {
+        return new TS_OsProcess(code, codeType);
     }
 
-    public static TS_Process ofPrg(CharSequence programCommand, CharSequence fileCommand) {
+    public static TS_OsProcess ofPrg(CharSequence programCommand, CharSequence fileCommand) {
         var spc = " ";
-        if (TS_OSUtils.isWindows()) {
+        if (TS_OsPlatformUtils.isWindows()) {
             var t = "\"";
             return of(TGS_StringUtils.concat(t, programCommand, t, spc, t, fileCommand, t));
         }
-        if (TS_OSUtils.isLinux()) {
+        if (TS_OsPlatformUtils.isLinux()) {
             return of(TGS_StringUtils.concat(programCommand, spc, fileCommand));
         }
         return of(TGS_StringUtils.concat(programCommand, spc, fileCommand));

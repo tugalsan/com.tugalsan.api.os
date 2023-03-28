@@ -7,7 +7,7 @@ import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
 
-public class TS_JavaUtils {
+public class TS_OsJavaUtils {
 
     private static List<Path> toPaths(CharSequence list, CharSequence delimiter) {
         return TGS_StreamUtils.toLst(
@@ -25,7 +25,7 @@ public class TS_JavaUtils {
     }
 
     public static Path getPathJava() {
-        return Path.of(System.getProperty("java.home"), "bin", (TS_OSUtils.isWindows() ? "javaw.exe" : "java"));
+        return Path.of(System.getProperty("java.home"), "bin", (TS_OsPlatformUtils.isWindows() ? "javaw.exe" : "java"));
     }
 
     public static List<Path> getPathAPI() {
@@ -49,7 +49,7 @@ public class TS_JavaUtils {
 
     public static Path getJarPath() {
         return TGS_UnSafe.compile(() -> {
-            var codeSource = TS_JavaUtils.class.getProtectionDomain().getCodeSource();
+            var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
             return Path.of(codeSource.getLocation().toURI().getPath());
         });
     }

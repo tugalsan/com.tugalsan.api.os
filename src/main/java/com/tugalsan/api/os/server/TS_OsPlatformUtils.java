@@ -9,7 +9,7 @@ import com.tugalsan.api.charset.client.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 
-public class TS_OSUtils {
+public class TS_OsPlatformUtils {
 
     public static int getRamInMB() {
         var ramInBytes = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalMemorySize();
@@ -107,10 +107,10 @@ public class TS_OSUtils {
         return sb.toString();
     }
 
-    public static void main(String... s) {
-        var a = toStringAll(true, true);
-        System.out.println(a);
-    }
+//    public static void main(String... s) {
+//        var a = toStringAll(true, true);
+//        System.out.println(a);
+//    }
 
     //PRIVATE
     private static List<Path> toPaths(CharSequence list, CharSequence delimiter) {

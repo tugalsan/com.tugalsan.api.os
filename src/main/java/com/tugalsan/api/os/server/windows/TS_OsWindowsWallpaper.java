@@ -1,4 +1,4 @@
-package com.tugalsan.api.os.server;
+package com.tugalsan.api.os.server.windows;
 
 import java.util.*;
 import java.nio.file.*;
@@ -6,7 +6,7 @@ import com.sun.jna.Native;
 import com.sun.jna.win32.*;
 import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 
-public class TS_OSWallpaper {
+public class TS_OsWindowsWallpaper {
 
     public static void set(Path file) {
         SPI.INSTANCE.SystemParametersInfo(

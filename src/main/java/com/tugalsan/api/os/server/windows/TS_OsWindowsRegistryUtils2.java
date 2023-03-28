@@ -1,4 +1,4 @@
-package com.tugalsan.api.os.server;
+package com.tugalsan.api.os.server.windows;
 
 import com.tugalsan.api.unsafe.client.*;
 import java.lang.reflect.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.prefs.*;
 import java.util.stream.*;
 
-public class TS_RegistryUtils2 {
+public class TS_OsWindowsRegistryUtils2 {
 
     public static final int HKEY_CURRENT_USER() {
         return 0x80000001;
@@ -82,7 +82,7 @@ public class TS_RegistryUtils2 {
         });
     }
 
-    private TS_RegistryUtils2() {
+    private TS_OsWindowsRegistryUtils2() {
     }
 
     /**
@@ -105,7 +105,7 @@ public class TS_RegistryUtils2 {
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readString(userRoot, hkey, key, valueName, wow64);
             }
-            return TGS_UnSafe.catchMeIfUCanReturns(TS_RegistryUtils2.class.getSimpleName(), "readString", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_UnSafe.catchMeIfUCanReturns(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readString", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -127,7 +127,7 @@ public class TS_RegistryUtils2 {
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readStringValues(userRoot, hkey, key, wow64);
             }
-            return TGS_UnSafe.catchMeIfUCanReturns(TS_RegistryUtils2.class.getSimpleName(), "readStringValues", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_UnSafe.catchMeIfUCanReturns(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringValues", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -149,7 +149,7 @@ public class TS_RegistryUtils2 {
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readStringSubKeys(userRoot, hkey, key, wow64);
             }
-            return TGS_UnSafe.catchMeIfUCanReturns(TS_RegistryUtils2.class.getSimpleName(), "readStringSubKeys", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_UnSafe.catchMeIfUCanReturns(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringSubKeys", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -166,17 +166,17 @@ public class TS_RegistryUtils2 {
                 ret = createKey(systemRoot, hkey, key);
                 regCloseKey.invoke(systemRoot, new Object[]{ret[0]});
                 if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                    TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
                 }
             }
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 ret = createKey(userRoot, hkey, key);
                 regCloseKey.invoke(userRoot, new Object[]{ret[0]});
                 if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                    TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
                 }
             }
-            TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
+            TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -201,7 +201,7 @@ public class TS_RegistryUtils2 {
                 writeStringValue(userRoot, hkey, key, valueName, value, wow64);
                 return;
             }
-            TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
+            TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -221,7 +221,7 @@ public class TS_RegistryUtils2 {
                 rc = deleteKey(userRoot, hkey, key);
             }
             if (rc != REG_SUCCESS()) {
-                TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.key=" + key);
+                TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.key=" + key);
             }
         });
     }
@@ -245,7 +245,7 @@ public class TS_RegistryUtils2 {
                 rc = deleteValue(userRoot, hkey, key, value, wow64);
             }
             if (rc != REG_SUCCESS()) {
-                TGS_UnSafe.catchMeIfUCan(TS_RegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + rc + "  key=" + key + "  value=" + value);
+                TGS_UnSafe.catchMeIfUCan(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + rc + "  key=" + key + "  value=" + value);
             }
         });
     }
