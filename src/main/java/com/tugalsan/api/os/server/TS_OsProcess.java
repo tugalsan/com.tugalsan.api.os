@@ -53,7 +53,7 @@ public class TS_OsProcess {
     }
 
     private void process() {
-        TGS_UnSafe.execute(() -> {
+        TGS_UnSafe.run(() -> {
             this.pid = process.pid();
             process.waitFor();
             try ( var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -67,10 +67,10 @@ public class TS_OsProcess {
     }
 
     private TS_OsProcess(CharSequence code, CodeType codeType) {
-        TGS_UnSafe.execute(() -> {
+        TGS_UnSafe.run(() -> {
             var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
             if (fileSuffix == null) {
-                TGS_UnSafe.catchMeIfUCan(TS_OsProcess.class.getSimpleName(),
+                TGS_UnSafe.thrw(TS_OsProcess.class.getSimpleName(),
                         "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
                         "CodeType not recognized!");
             }
@@ -86,7 +86,7 @@ public class TS_OsProcess {
     }
 
     private TS_OsProcess(String[] commandTokens) {
-        TGS_UnSafe.execute(() -> {
+        TGS_UnSafe.run(() -> {
             this.commandTokens = commandTokens;
             this.process = Runtime.getRuntime().exec(commandTokens);
             process();

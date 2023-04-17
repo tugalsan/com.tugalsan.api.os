@@ -48,7 +48,7 @@ public class TS_OsJavaUtils {
     }
 
     public static Path getJarPath() {
-        return TGS_UnSafe.compile(() -> {
+        return TGS_UnSafe.call(() -> {
             var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
             return Path.of(codeSource.getLocation().toURI().getPath());
         });
