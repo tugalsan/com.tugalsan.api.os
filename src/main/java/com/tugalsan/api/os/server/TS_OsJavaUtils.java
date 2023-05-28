@@ -1,5 +1,6 @@
 package com.tugalsan.api.os.server;
 
+import com.sun.jna.Platform;
 import java.nio.file.*;
 import java.util.*;
 import com.tugalsan.api.charset.client.*;
@@ -47,12 +48,22 @@ public class TS_OsJavaUtils {
         return sb.toString();
     }
 
-    public static Path getJarPath(Class main) {
+    public static Path getJarPath() {
         return TGS_UnSafe.call(() -> {
-
-            var codeSource = main.getProtectionDomain().getCodeSource();
-            System.out.println("codeSource:" + codeSource);
-            return Path.of(codeSource.getLocation().toURI().getPath());
+            var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
+//            System.out.println("codeSource:" + codeSource);
+            var path = codeSource.getLocation().toURI().getPath();
+//            System.out.println("path:" + path);
+            if (Platform.isWindows()) {
+//                System.out.println("isWindows");
+                if (path.charAt(0) == '/') {
+                    path = path.substring(1);
+//                    System.out.println("path^:" + path);
+//                } else {
+//                    System.out.println("first char is not '/'. I is " + path.charAt(0));
+                }
+            }
+            return Path.of(path);
         });
     }
 }
