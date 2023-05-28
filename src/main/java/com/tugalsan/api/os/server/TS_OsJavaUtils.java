@@ -47,9 +47,11 @@ public class TS_OsJavaUtils {
         return sb.toString();
     }
 
-    public static Path getJarPath() {
+    public static Path getJarPath(Class main) {
         return TGS_UnSafe.call(() -> {
-            var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
+
+            var codeSource = main.getProtectionDomain().getCodeSource();
+            System.out.println("codeSource:" + codeSource);
             return Path.of(codeSource.getLocation().toURI().getPath());
         });
     }
