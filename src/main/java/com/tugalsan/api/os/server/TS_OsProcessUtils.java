@@ -3,6 +3,7 @@ package com.tugalsan.api.os.server;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.lang.ProcessHandle.Info;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class TS_OsProcessUtils {
@@ -21,6 +22,10 @@ public class TS_OsProcessUtils {
 
     public static Stream<ProcessHandle> list() {
         return ProcessHandle.allProcesses();
+    }
+
+    public static boolean runJar(Path jarFile, List<CharSequence> arguments) {
+        return runJar(jarFile, arguments.stream().toArray(CharSequence[]::new));
     }
 
     public static boolean runJar(Path jarFile, CharSequence... arguments) {
