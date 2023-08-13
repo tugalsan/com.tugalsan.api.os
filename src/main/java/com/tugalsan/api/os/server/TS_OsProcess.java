@@ -3,12 +3,14 @@ package com.tugalsan.api.os.server;
 import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
+import com.tugalsan.api.time.server.TS_TimeElapsed;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -42,6 +44,7 @@ public class TS_OsProcess {
     public String error;
     public Exception exception;
     public int exitValue;
+    public Duration elapsed;
 
     public boolean exitValueOk() {
         return exitValue == 0;
@@ -54,16 +57,18 @@ public class TS_OsProcess {
 
     private void process() {
         TGS_UnSafe.run(() -> {
+            var elapsed = TS_TimeElapsed.of();
             this.pid = process.pid();
             process.waitFor();
-            try ( var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+            try (var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 output = is.lines().collect(Collectors.joining("\n"));
             }
-            try ( var es = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+            try (var es = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                 error = es.lines().collect(Collectors.joining("\n"));
             }
             this.exitValue = process.exitValue();
-        }, exception -> this.exception = exception);
+            this.elapsed = elapsed.elapsed_now();
+        }, e -> this.exception = e);
     }
 
     private TS_OsProcess(CharSequence code, CodeType codeType) {
@@ -76,7 +81,7 @@ public class TS_OsProcess {
             }
             var file = File.createTempFile("tmp" + TS_RandomUtils.nextString(5, true, true, false, false, null), "." + fileSuffix);
             file.delete();
-            try ( var fw = new FileWriter(file);) {
+            try (var fw = new FileWriter(file);) {
                 fw.write(code.toString());
             }
             this.process = Runtime.getRuntime().exec(commandTokens);
