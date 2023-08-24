@@ -10,8 +10,12 @@ public class TS_OsUserUtils {
         return System.getProperty("user.name");
     }
 
-    public static Path getPath() {
+    public static Path getPathRoot() {
         return Path.of(System.getProperty("user.home"));
+    }
+
+    public static Path getPathUser() {
+        return Path.of(System.getProperty("user.dir"));
     }
 
     public static String toStringAll(boolean hrStart, boolean hrEnd) {
@@ -20,7 +24,8 @@ public class TS_OsUserUtils {
             sb.add("-----------------------------------------------------------------------------------");
         }
         sb.add(TGS_StringUtils.concat("TK_UserUtils.getUserName: [", getUserName()));
-        sb.add(TGS_StringUtils.concat("TK_UserUtils.getPath: [", getPath().toString()));
+        sb.add(TGS_StringUtils.concat("TK_UserUtils.getPathRoot: [", getPathRoot().toString()));
+        sb.add(TGS_StringUtils.concat("TK_UserUtils.getPathUser: [", getPathUser().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
