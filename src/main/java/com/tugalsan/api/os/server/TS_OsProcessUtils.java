@@ -32,7 +32,7 @@ public class TS_OsProcessUtils {
         return TGS_UnSafe.call(() -> {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
-            var pre = "--enable-preview --add-modules jdk.incubator.concurrent -jar ";
+            var pre = "--enable-preview --add-modules jdk.incubator.vector -jar ";
             var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "\" " + String.join(" ", arguments);
 //            d.ci("main", "cmd", cmd);
             var pb = new ProcessBuilder(java, cmd);
