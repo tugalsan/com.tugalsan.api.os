@@ -1,6 +1,7 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import com.tugalsan.api.union.client.TGS_Union;
+import java.io.IOException;
 import java.lang.ProcessHandle.Info;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,12 +25,12 @@ public class TS_OsProcessUtils {
         return ProcessHandle.allProcesses();
     }
 
-    public static boolean runJar(Path jarFile, List<CharSequence> arguments) {
+    public static TGS_Union<Boolean> runJar(Path jarFile, List<CharSequence> arguments) {
         return runJar(jarFile, arguments.stream().toArray(CharSequence[]::new));
     }
 
-    public static boolean runJar(Path jarFile, CharSequence... arguments) {
-        return TGS_UnSafe.call(() -> {
+    public static TGS_Union<Boolean> runJar(Path jarFile, CharSequence... arguments) {
+        try {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
             var pre = "--enable-preview --add-modules jdk.incubator.vector -jar ";
@@ -37,10 +38,9 @@ public class TS_OsProcessUtils {
 //            d.ci("main", "cmd", cmd);
             var pb = new ProcessBuilder(java, cmd);
             pb.start();
-            return true;
-        }, e -> {
-            e.printStackTrace();
-            return false;
-        });
+            return TGS_Union.of(true);
+        } catch (IOException ex) {
+            return TGS_Union.ofThrowable(ex);
+        }
     }
 }

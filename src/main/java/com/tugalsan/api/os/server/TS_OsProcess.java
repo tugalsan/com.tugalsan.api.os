@@ -4,10 +4,12 @@ import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.time.server.TS_TimeElapsed;
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.client.TGS_UnionUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -55,9 +57,9 @@ public class TS_OsProcess {
         VBS
     }
 
-    private void process() {
-        TGS_UnSafe.run(() -> {
-            var elapsed = TS_TimeElapsed.of();
+    private void process() throws InterruptedException {
+        var _elapsed = TS_TimeElapsed.of();
+        try {
             this.pid = process.pid();
             process.waitFor();
             try (var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -67,17 +69,22 @@ public class TS_OsProcess {
                 error = es.lines().collect(Collectors.joining("\n"));
             }
             this.exitValue = process.exitValue();
-            this.elapsed = elapsed.elapsed_now();
-        }, e -> this.exception = e);
+        } catch (IOException ex) {
+            this.exception = ex;
+            return;
+        }
+        this.elapsed = _elapsed.elapsed_now();
     }
 
-    private TS_OsProcess(CharSequence code, CodeType codeType) {
-        TGS_UnSafe.run(() -> {
+    private TS_OsProcess(CharSequence code, CodeType codeType) throws InterruptedException {
+        try {
             var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
             if (fileSuffix == null) {
-                TGS_UnSafe.thrw(TS_OsProcess.class.getSimpleName(),
+                TGS_UnionUtils.throwAsRuntimeException(
+                        TS_OsProcess.class.getSimpleName(),
                         "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
-                        "CodeType not recognized!");
+                        "CodeType not recognized!"
+                );
             }
             var file = File.createTempFile("tmp" + TS_RandomUtils.nextString(5, true, true, false, false, null), "." + fileSuffix);
             file.delete();
@@ -87,42 +94,46 @@ public class TS_OsProcess {
             this.process = Runtime.getRuntime().exec(commandTokens);
             process();
             file.delete();
-        }, exception -> this.exception = exception);
+        } catch (IOException ex) {
+            this.exception = ex;
+        }
     }
 
-    private TS_OsProcess(String[] commandTokens) {
-        TGS_UnSafe.run(() -> {
+    private TS_OsProcess(String[] commandTokens) throws InterruptedException {
+        try {
             this.commandTokens = commandTokens;
             this.process = Runtime.getRuntime().exec(commandTokens);
             process();
-        }, exception -> this.exception = exception);
+        } catch (IOException ex) {
+            this.exception = ex;
+        }
     }
 
-    private TS_OsProcess(List<String> commandTokens) {
+    private TS_OsProcess(List<String> commandTokens) throws InterruptedException {
         this(commandTokens.toArray(String[]::new));
     }
 
-    private TS_OsProcess(CharSequence commandLine) {
+    private TS_OsProcess(CharSequence commandLine) throws InterruptedException {
         this(TS_ListCastUtils.toString(new StringTokenizer(commandLine.toString(), " ")));
     }
 
-    public static TS_OsProcess of(CharSequence commandLine) {
+    public static TS_OsProcess of(CharSequence commandLine) throws InterruptedException {
         return new TS_OsProcess(commandLine);
     }
 
-    public static TS_OsProcess of(List<String> commandTokens) {
+    public static TS_OsProcess of(List<String> commandTokens) throws InterruptedException {
         return new TS_OsProcess(commandTokens);
     }
 
-    public static TS_OsProcess of(String[] commandTokens) {
+    public static TS_OsProcess of(String[] commandTokens) throws InterruptedException {
         return new TS_OsProcess(commandTokens);
     }
 
-    public static TS_OsProcess ofCode(CharSequence code, CodeType codeType) {
+    public static TS_OsProcess ofCode(CharSequence code, CodeType codeType) throws InterruptedException {
         return new TS_OsProcess(code, codeType);
     }
 
-    public static TS_OsProcess ofPrg(CharSequence programCommand, CharSequence fileCommand) {
+    public static TS_OsProcess ofPrg(CharSequence programCommand, CharSequence fileCommand) throws InterruptedException {
         var spc = " ";
         if (TS_OsPlatformUtils.isWindows()) {
             var t = "\"";
