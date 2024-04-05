@@ -103,7 +103,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * @return the value
      *
      */
-    public String readString(int hkey, CharSequence key, CharSequence valueName, int wow64) {
+    public String readString(int hkey, CharSequence key, CharSequence valueName, int wow64) throws IllegalAccessException, InvocationTargetException {
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             return readString(systemRoot, hkey, key, valueName, wow64);
         }
@@ -127,7 +127,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      * @return the value name(s) plus the value(s)
      */
-    public Map<String, String> readStringValues(int hkey, String key, int wow64) {
+    public Map<String, String> readStringValues(int hkey, String key, int wow64) throws IllegalAccessException, InvocationTargetException {
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             return readStringValues(systemRoot, hkey, key, wow64);
         }
@@ -151,7 +151,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      * @return the value name(s)
      */
-    public List<String> readStringSubKeys(int hkey, String key, int wow64) {
+    public List<String> readStringSubKeys(int hkey, String key, int wow64) throws IllegalAccessException, InvocationTargetException {
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             return readStringSubKeys(systemRoot, hkey, key, wow64);
         }
@@ -171,32 +171,28 @@ public class TS_OsWindowsRegistryUtils2 {
      * @param hkey HKEY_CURRENT_USER/HKEY_LOCAL_MACHINE
      * @param key
      */
-    public void createKey(int hkey, String key) {
-        try {
-            int[] ret;
-            if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
-                ret = createKey(systemRoot, hkey, key);
-                regCloseKey.invoke(systemRoot, new Object[]{ret[0]});
-                if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnionUtils.throwAsRuntimeException(
-                            TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                            "createKey",
-                            "IllegalArgumentException.rc=" + ret[1] + "  key=" + key
-                    );
-                }
+    public void createKey(int hkey, String key) throws IllegalAccessException, InvocationTargetException {
+        int[] ret;
+        if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
+            ret = createKey(systemRoot, hkey, key);
+            regCloseKey.invoke(systemRoot, new Object[]{ret[0]});
+            if (ret[1] != REG_SUCCESS()) {
+                TGS_UnionUtils.throwAsRuntimeException(
+                        TS_OsWindowsRegistryUtils2.class.getSimpleName(),
+                        "createKey",
+                        "IllegalArgumentException.rc=" + ret[1] + "  key=" + key
+                );
             }
-            if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
-                ret = createKey(userRoot, hkey, key);
-                regCloseKey.invoke(userRoot, new Object[]{ret[0]});
-                if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnionUtils.throwAsRuntimeException(
-                            TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                            "createKey",
-                            "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
-                }
+        }
+        if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
+            ret = createKey(userRoot, hkey, key);
+            regCloseKey.invoke(userRoot, new Object[]{ret[0]});
+            if (ret[1] != REG_SUCCESS()) {
+                TGS_UnionUtils.throwAsRuntimeException(
+                        TS_OsWindowsRegistryUtils2.class.getSimpleName(),
+                        "createKey",
+                        "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
             }
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            TGS_UnionUtils.throwAsRuntimeException(ex);
         }
     }
 
@@ -211,7 +207,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * 64-bits for 64-bits app) or KEY_WOW64_32KEY to force access to 32-bit
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      */
-    public void writeStringValue(int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) {
+    public void writeStringValue(int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) throws IllegalAccessException, InvocationTargetException {
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             writeStringValue(systemRoot, hkey, key, valueName, value, wow64);
             return;
@@ -228,7 +224,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * @param hkey
      * @param key
      */
-    public void deleteKey(int hkey, CharSequence key) {
+    public void deleteKey(int hkey, CharSequence key) throws IllegalAccessException, InvocationTargetException {
         var rc = -1;
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             rc = deleteKey(systemRoot, hkey, key);
@@ -255,7 +251,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * 64-bits for 64-bits app) or KEY_WOW64_32KEY to force access to 32-bit
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      */
-    public void deleteValue(int hkey, CharSequence key, CharSequence value, int wow64) {
+    public void deleteValue(int hkey, CharSequence key, CharSequence value, int wow64) throws IllegalAccessException, InvocationTargetException {
         var rc = -1;
         if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
             rc = deleteValue(systemRoot, hkey, key, value, wow64);
@@ -272,132 +268,104 @@ public class TS_OsWindowsRegistryUtils2 {
     }
 
     //========================================================================
-    private int deleteValue(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) {
-        try {
-            var handles = (int[]) regOpenKey.invoke(root, new Object[]{
-                hkey, toCstr(key), KEY_ALL_ACCESS() | wow64
-            });
-            if (handles[1] != REG_SUCCESS()) {
-                return handles[1];  // can be REG_NOTFOUND, REG_ACCESSDENIED
-            }
-            var rc = ((Integer) regDeleteValue.invoke(root, new Object[]{
-                handles[0], toCstr(value)
-            }));
-            regCloseKey.invoke(root, new Object[]{handles[0]});
-            return rc;
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
+    private int deleteValue(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) throws IllegalAccessException, InvocationTargetException {
+        var handles = (int[]) regOpenKey.invoke(root, new Object[]{
+            hkey, toCstr(key), KEY_ALL_ACCESS() | wow64
+        });
+        if (handles[1] != REG_SUCCESS()) {
+            return handles[1];  // can be REG_NOTFOUND, REG_ACCESSDENIED
         }
+        var rc = ((Integer) regDeleteValue.invoke(root, new Object[]{
+            handles[0], toCstr(value)
+        }));
+        regCloseKey.invoke(root, new Object[]{handles[0]});
+        return rc;
     }
 
     //========================================================================
-    private int deleteKey(Preferences root, int hkey, CharSequence key) {
-        try {
-            return ((Integer) regDeleteKey.invoke(root, new Object[]{
-                hkey, toCstr(key)
-            }));// can REG_NOTFOUND, REG_ACCESSDENIED, REG_SUCCESS
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
-        }
+    private int deleteKey(Preferences root, int hkey, CharSequence key) throws IllegalAccessException, InvocationTargetException {
+        return ((Integer) regDeleteKey.invoke(root, new Object[]{
+            hkey, toCstr(key)
+        }));// can REG_NOTFOUND, REG_ACCESSDENIED, REG_SUCCESS
     }
 
     //========================================================================
-    private String readString(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) {
-        try {
-            var handles = (int[]) regOpenKey.invoke(root, new Object[]{
-                hkey, toCstr(key), KEY_READ() | wow64});
-            if (handles[1] != REG_SUCCESS()) {
-                return null;
-            }
-            var valb = (byte[]) regQueryValueEx.invoke(root, new Object[]{
-                handles[0], toCstr(value)
-            });
-            regCloseKey.invoke(root, new Object[]{handles[0]});
-            return (valb != null ? new String(valb).trim() : null);
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
+    private String readString(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) throws IllegalAccessException, InvocationTargetException {
+        var handles = (int[]) regOpenKey.invoke(root, new Object[]{
+            hkey, toCstr(key), KEY_READ() | wow64});
+        if (handles[1] != REG_SUCCESS()) {
+            return null;
         }
+        var valb = (byte[]) regQueryValueEx.invoke(root, new Object[]{
+            handles[0], toCstr(value)
+        });
+        regCloseKey.invoke(root, new Object[]{handles[0]});
+        return (valb != null ? new String(valb).trim() : null);
     }
 
     //========================================================================
-    private Map<String, String> readStringValues(Preferences root, int hkey, CharSequence key, int wow64) {
-        try {
-            var results = new HashMap<String, String>();
-            var handles = (int[]) regOpenKey.invoke(root, new Object[]{
-                hkey, toCstr(key), KEY_READ() | wow64});
-            if (handles[1] != REG_SUCCESS()) {
-                return null;
-            }
-            var info = (int[]) regQueryInfoKey.invoke(root, new Object[]{
-                handles[0]
-            });
-            var count = info[2]; // count
-            var maxlen = info[3]; // value length max
-            for (var index = 0; index < count; index++) {
-                var name = (byte[]) regEnumValue.invoke(root, new Object[]{
-                    handles[0], index, maxlen + 1}
-                );
-                var value = readString(hkey, key, new String(name), wow64);
-                results.put(new String(name).trim(), value);
-            }
-            regCloseKey.invoke(root, new Object[]{handles[0]});
-            return results;
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
+    private Map<String, String> readStringValues(Preferences root, int hkey, CharSequence key, int wow64) throws IllegalAccessException, InvocationTargetException {
+        var results = new HashMap<String, String>();
+        var handles = (int[]) regOpenKey.invoke(root, new Object[]{
+            hkey, toCstr(key), KEY_READ() | wow64});
+        if (handles[1] != REG_SUCCESS()) {
+            return null;
         }
+        var info = (int[]) regQueryInfoKey.invoke(root, new Object[]{
+            handles[0]
+        });
+        var count = info[2]; // count
+        var maxlen = info[3]; // value length max
+        for (var index = 0; index < count; index++) {
+            var name = (byte[]) regEnumValue.invoke(root, new Object[]{
+                handles[0], index, maxlen + 1}
+            );
+            var value = readString(hkey, key, new String(name), wow64);
+            results.put(new String(name).trim(), value);
+        }
+        regCloseKey.invoke(root, new Object[]{handles[0]});
+        return results;
     }
 
     //========================================================================
-    private List<String> readStringSubKeys(Preferences root, int hkey, CharSequence key, int wow64) {
-        try {
-            List<String> results = new ArrayList();
-            var handles = (int[]) regOpenKey.invoke(root, new Object[]{
-                hkey, toCstr(key), KEY_READ() | wow64
-            });
-            if (handles[1] != REG_SUCCESS()) {
-                return null;
-            }
-            var info = (int[]) regQueryInfoKey.invoke(root, new Object[]{
-                handles[0]});
-
-            var count = info[0]; // Fix: info[2] was being used here with wrong results. Suggested by davenpcj, confirmed by Petrucio
-            var maxlen = info[3]; // value length max
-            for (var index = 0; index < count; index++) {
-                var name = (byte[]) regEnumKeyEx.invoke(root, new Object[]{
-                    handles[0], index, maxlen + 1
-                });
-                results.add(new String(name).trim());
-            }
-            regCloseKey.invoke(root, new Object[]{handles[0]});
-            return results;
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
+    private List<String> readStringSubKeys(Preferences root, int hkey, CharSequence key, int wow64) throws IllegalAccessException, InvocationTargetException {
+        List<String> results = new ArrayList();
+        var handles = (int[]) regOpenKey.invoke(root, new Object[]{
+            hkey, toCstr(key), KEY_READ() | wow64
+        });
+        if (handles[1] != REG_SUCCESS()) {
+            return null;
         }
+        var info = (int[]) regQueryInfoKey.invoke(root, new Object[]{
+            handles[0]});
+
+        var count = info[0]; // Fix: info[2] was being used here with wrong results. Suggested by davenpcj, confirmed by Petrucio
+        var maxlen = info[3]; // value length max
+        for (var index = 0; index < count; index++) {
+            var name = (byte[]) regEnumKeyEx.invoke(root, new Object[]{
+                handles[0], index, maxlen + 1
+            });
+            results.add(new String(name).trim());
+        }
+        regCloseKey.invoke(root, new Object[]{handles[0]});
+        return results;
     }
 
     //========================================================================
-    private int[] createKey(Preferences root, int hkey, CharSequence key) {
-        try {
-            return (int[]) regCreateKeyEx.invoke(root, new Object[]{
-                hkey, toCstr(key)
-            });
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            return TGS_UnionUtils.throwAsRuntimeException(ex);
-        }
+    private int[] createKey(Preferences root, int hkey, CharSequence key) throws IllegalAccessException, InvocationTargetException {
+        return (int[]) regCreateKeyEx.invoke(root, new Object[]{
+            hkey, toCstr(key)
+        });
     }
 
     //========================================================================
-    private void writeStringValue(Preferences root, int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) {
-        try {
-            var handles = (int[]) regOpenKey.invoke(root, new Object[]{
-                hkey, toCstr(key), KEY_ALL_ACCESS() | wow64});
-            regSetValueEx.invoke(root, new Object[]{
-                handles[0], toCstr(valueName), toCstr(value)
-            });
-            regCloseKey.invoke(root, new Object[]{handles[0]});
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            TGS_UnionUtils.throwAsRuntimeException(ex);
-        }
+    private void writeStringValue(Preferences root, int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) throws IllegalAccessException, InvocationTargetException {
+        var handles = (int[]) regOpenKey.invoke(root, new Object[]{
+            hkey, toCstr(key), KEY_ALL_ACCESS() | wow64});
+        regSetValueEx.invoke(root, new Object[]{
+            handles[0], toCstr(valueName), toCstr(value)
+        });
+        regCloseKey.invoke(root, new Object[]{handles[0]});
     }
 
     //========================================================================
