@@ -4,8 +4,6 @@ import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.time.server.TS_TimeElapsed;
-import com.tugalsan.api.union.client.TGS_Union;
-import com.tugalsan.api.union.client.TGS_UnionUtils;
 import com.tugalsan.api.union.server.TS_UnionUtils;
 import java.io.BufferedReader;
 import java.io.File;
@@ -83,11 +81,7 @@ public class TS_OsProcess {
         try {
             var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
             if (fileSuffix == null) {
-                TGS_UnionUtils.throwAsRuntimeException(
-                        TS_OsProcess.class.getSimpleName(),
-                        "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
-                        "CodeType not recognized!"
-                );
+                throw new UnsupportedOperationException("CodeType not recognized! " + codeType);
             }
             var file = File.createTempFile("tmp" + TS_RandomUtils.nextString(5, true, true, false, false, null), "." + fileSuffix);
             file.delete();
@@ -132,7 +126,7 @@ public class TS_OsProcess {
         return new TS_OsProcess(commandTokens);
     }
 
-    public static TS_OsProcess ofCode(CharSequence code, CodeType codeType)  {
+    public static TS_OsProcess ofCode(CharSequence code, CodeType codeType) {
         return new TS_OsProcess(code, codeType);
     }
 
