@@ -74,7 +74,7 @@ public class TS_OsProcess {
             this.exception = ex;
             return;
         } catch (InterruptedException ex) {
-            TS_UnionUtils.throwIfRuntimeException(ex);
+            TS_UnionUtils.throwAsRuntimeExceptionIfInterruptedException(ex);
         }
         this.elapsed = _elapsed.elapsed_now();
     }
