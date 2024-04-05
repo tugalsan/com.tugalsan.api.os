@@ -110,11 +110,7 @@ public class TS_OsWindowsRegistryUtils2 {
         if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
             return readString(userRoot, hkey, key, valueName, wow64);
         }
-        return TGS_UnionUtils.throwAsRuntimeException(
-                TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                "readString",
-                "IllegalArgumentException.hkey=" + hkey
-        );
+        throw new IllegalArgumentException("hkey=" + hkey);
     }
 
     /**
@@ -134,11 +130,7 @@ public class TS_OsWindowsRegistryUtils2 {
         if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
             return readStringValues(userRoot, hkey, key, wow64);
         }
-        return TGS_UnionUtils.throwAsRuntimeException(
-                TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                "readStringValues",
-                "IllegalArgumentException.hkey=" + hkey
-        );
+        throw new IllegalArgumentException("hkey=" + hkey);
     }
 
     /**
@@ -158,11 +150,7 @@ public class TS_OsWindowsRegistryUtils2 {
         if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
             return readStringSubKeys(userRoot, hkey, key, wow64);
         }
-        return TGS_UnionUtils.throwAsRuntimeException(
-                TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                "readStringSubKeys",
-                "IllegalArgumentException.hkey=" + hkey
-        );
+        throw new IllegalArgumentException("hkey=" + hkey);
     }
 
     /**
@@ -177,21 +165,14 @@ public class TS_OsWindowsRegistryUtils2 {
             ret = createKey(systemRoot, hkey, key);
             regCloseKey.invoke(systemRoot, new Object[]{ret[0]});
             if (ret[1] != REG_SUCCESS()) {
-                TGS_UnionUtils.throwAsRuntimeException(
-                        TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                        "createKey",
-                        "IllegalArgumentException.rc=" + ret[1] + "  key=" + key
-                );
+                throw new IllegalArgumentException("rc=" + ret[1] + "  key=" + key);
             }
         }
         if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
             ret = createKey(userRoot, hkey, key);
             regCloseKey.invoke(userRoot, new Object[]{ret[0]});
             if (ret[1] != REG_SUCCESS()) {
-                TGS_UnionUtils.throwAsRuntimeException(
-                        TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                        "createKey",
-                        "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                throw new IllegalArgumentException("rc=" + ret[1] + "  key=" + key);
             }
         }
     }
@@ -233,11 +214,7 @@ public class TS_OsWindowsRegistryUtils2 {
             rc = deleteKey(userRoot, hkey, key);
         }
         if (rc != REG_SUCCESS()) {
-            TGS_UnionUtils.throwAsRuntimeException(
-                    TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                    "deleteKey",
-                    "IllegalArgumentException.key=" + key
-            );
+            throw new IllegalArgumentException("hkey=" + hkey + "  key=" + key);
         }
     }
 
@@ -259,11 +236,7 @@ public class TS_OsWindowsRegistryUtils2 {
             rc = deleteValue(userRoot, hkey, key, value, wow64);
         }
         if (rc != REG_SUCCESS()) {
-            TGS_UnionUtils.throwAsRuntimeException(
-                    TS_OsWindowsRegistryUtils2.class.getSimpleName(),
-                    "deleteValue",
-                    "IllegalArgumentException.rc=" + rc + "  key=" + key + "  value=" + value
-            );
+            throw new IllegalArgumentException("rc=" + rc +"hkey=" + hkey + "  key=" + key);
         }
     }
 
