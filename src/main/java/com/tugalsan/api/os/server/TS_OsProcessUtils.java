@@ -40,7 +40,7 @@ public class TS_OsProcessUtils {
             pb.start();
             return TGS_Union.of(true);
         } catch (IOException ex) {
-            return TGS_Union.ofThrowable(ex);
+            return TGS_Union.ofExcuse(ex);
         }
     }
 }

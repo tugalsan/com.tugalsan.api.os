@@ -87,7 +87,7 @@ public class TS_OsWindowsRegistryUtils2 {
         try {
             return TGS_Union.of(new TS_OsWindowsRegistryUtils2());
         } catch (NoSuchMethodException ex) {
-            return TGS_Union.ofThrowable(ex);
+            return TGS_Union.ofExcuse(ex);
         }
     }
 

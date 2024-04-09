@@ -60,7 +60,7 @@ public class TS_OsJavaUtils {
             }
             return TGS_Union.of(Path.of(path));
         } catch (URISyntaxException ex) {
-            return TGS_Union.ofThrowable(ex);
+            return TGS_Union.ofExcuse(ex);
         }
     }
 }
