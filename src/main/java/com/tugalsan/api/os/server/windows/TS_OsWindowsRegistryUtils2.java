@@ -1,6 +1,6 @@
 package com.tugalsan.api.os.server.windows;
 
-import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import com.tugalsan.api.union.client.TGS_UnionUtils;
 import java.lang.reflect.*;
 import java.util.*;
@@ -83,11 +83,11 @@ public class TS_OsWindowsRegistryUtils2 {
     private final Method regDeleteKey;
     private final Method regDeleteValue;
 
-    public static TGS_Union<TS_OsWindowsRegistryUtils2> of() {
+    public static TGS_UnionExcuse<TS_OsWindowsRegistryUtils2> of() {
         try {
-            return TGS_Union.of(new TS_OsWindowsRegistryUtils2());
+            return TGS_UnionExcuse.of(new TS_OsWindowsRegistryUtils2());
         } catch (NoSuchMethodException ex) {
-            return TGS_Union.ofExcuse(ex);
+            return TGS_UnionExcuse.ofExcuse(ex);
         }
     }
 

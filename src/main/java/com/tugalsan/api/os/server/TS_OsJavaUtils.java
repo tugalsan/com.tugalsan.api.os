@@ -6,7 +6,7 @@ import java.util.*;
 import com.tugalsan.api.charset.client.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
-import com.tugalsan.api.union.client.TGS_Union;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.net.URISyntaxException;
 
 public class TS_OsJavaUtils {
@@ -49,7 +49,7 @@ public class TS_OsJavaUtils {
         return sb.toString();
     }
 
-    public static TGS_Union<Path> getJarPath() {
+    public static TGS_UnionExcuse<Path> getJarPath() {
         try {
             var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
             var path = codeSource.getLocation().toURI().getPath();
@@ -58,9 +58,9 @@ public class TS_OsJavaUtils {
                     path = path.substring(1);
                 }
             }
-            return TGS_Union.of(Path.of(path));
+            return TGS_UnionExcuse.of(Path.of(path));
         } catch (URISyntaxException ex) {
-            return TGS_Union.ofExcuse(ex);
+            return TGS_UnionExcuse.ofExcuse(ex);
         }
     }
 }
