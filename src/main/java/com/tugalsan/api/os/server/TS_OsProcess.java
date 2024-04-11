@@ -4,7 +4,7 @@ import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.time.server.TS_TimeElapsed;
-import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import com.tugalsan.api.union.server.TS_UnionUtils;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 
 public class TS_OsProcess {
 
-    public TGS_UnionExcuseVoid toUnion() {
+    public TGS_UnionExcuse<TS_OsProcess> toUnion() {
         if (exception != null) {
-            return TGS_UnionExcuseVoid.ofExcuse(exception);
+            return TGS_UnionExcuse.ofExcuse(exception);
         }
         if (!exitValueOk()) {
-            return TGS_UnionExcuseVoid.ofExcuse(TS_OsProcess.class.getSimpleName(), "toUnion", "!exitValueOk()");
+            return TGS_UnionExcuse.ofExcuse(TS_OsProcess.class.getSimpleName(), "toUnion", "!exitValueOk()");
         }
-        return TGS_UnionExcuseVoid.ofVoid();
+        return TGS_UnionExcuse.of(this);
     }
 
     public static Path executionPath() {
