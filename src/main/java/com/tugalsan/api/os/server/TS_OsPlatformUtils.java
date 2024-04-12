@@ -8,6 +8,7 @@ import java.util.*;
 import com.tugalsan.api.charset.client.*;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 
 public class TS_OsPlatformUtils {
 
@@ -38,10 +39,10 @@ public class TS_OsPlatformUtils {
         return TGS_CharSetCast.toLocaleLowerCase(System.getProperty("os.version"));
     }
 
-    public static Double getVersionNumber() {
+    public static TGS_UnionExcuse<Double> getVersionNumber() {
         var verStr = getVersion();
         if (verStr == null) {
-            return null;
+            return TGS_UnionExcuse.ofExcuse(TS_OsPlatformUtils.class.getSimpleName(), "getVersionNumber", "verStr == null");
         }
         if (TGS_CastUtils.isDouble(verStr)) {
             return TGS_CastUtils.toDouble(verStr);
