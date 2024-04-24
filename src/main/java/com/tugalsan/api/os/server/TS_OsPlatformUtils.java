@@ -31,11 +31,11 @@ public class TS_OsPlatformUtils {
     }
 
     public static String getName() {
-        return TGS_CharSetCast.toLocaleLowerCase(System.getProperty("os.name"));
+        return TGS_CharSet.cmn().languageDefault().toLowerCase(System.getProperty("os.name"));
     }
 
     public static String getVersion() {
-        return TGS_CharSetCast.toLocaleLowerCase(System.getProperty("os.version"));
+        return TGS_CharSet.cmn().languageDefault().toLowerCase(System.getProperty("os.version"));
     }
 
     public static Double getVersionNumber() {
