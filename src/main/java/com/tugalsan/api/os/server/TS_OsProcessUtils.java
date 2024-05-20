@@ -1,5 +1,6 @@
 package com.tugalsan.api.os.server;
 
+import com.tugalsan.api.runnable.client.TGS_Runnable;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.lang.ProcessHandle.Info;
@@ -43,4 +44,23 @@ public class TS_OsProcessUtils {
             return TGS_UnionExcuseVoid.ofExcuse(e);
         });
     }
+
+    public static void addShutdownHook(TGS_Runnable run) {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                    run.run();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+//
+//    @Deprecated
+//    public static void addShutdownSignal(TGS_Runnable run) {
+//        jdk.internal.misc.Signal.handle(new Signal("INT"), signal -> run.run());
+//    }
 }
