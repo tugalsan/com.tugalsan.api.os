@@ -52,11 +52,11 @@ public class TS_OsProcess {
     }
 
     public static String constructJarExtractorString(CharSequence file) {
-        return TGS_StringUtils.concat("jar xf ", file);
+        return TGS_StringUtils.cmn().concat("jar xf ", file);
     }
 
     public static String constructJarFileListString(CharSequence file) {
-        return TGS_StringUtils.concat("jar tf ", file);
+        return TGS_StringUtils.cmn().concat("jar tf ", file);
     }
     public String[] commandTokens;
     public Process process;
@@ -155,11 +155,11 @@ public class TS_OsProcess {
         var spc = " ";
         if (TS_OsPlatformUtils.isWindows()) {
             var t = "\"";
-            return of(TGS_StringUtils.concat(t, programCommand, t, spc, t, fileCommand, t));
+            return of(TGS_StringUtils.cmn().concat(t, programCommand, t, spc, t, fileCommand, t));
         }
         if (TS_OsPlatformUtils.isLinux()) {
-            return of(TGS_StringUtils.concat(programCommand, spc, fileCommand));
+            return of(TGS_StringUtils.cmn().concat(programCommand, spc, fileCommand));
         }
-        return of(TGS_StringUtils.concat(programCommand, spc, fileCommand));
+        return of(TGS_StringUtils.cmn().concat(programCommand, spc, fileCommand));
     }
 }

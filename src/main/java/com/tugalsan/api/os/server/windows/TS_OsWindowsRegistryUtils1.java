@@ -6,7 +6,7 @@ import com.tugalsan.api.string.client.*;
 public class TS_OsWindowsRegistryUtils1 {
 
     public static String readRegistry(CharSequence location, CharSequence key) {
-        var cmd = TGS_StringUtils.concat("reg query ", "\"", location, "\" /v ", key);
+        var cmd = TGS_StringUtils.cmn().concat("reg query ", "\"", location, "\" /v ", key);
         return TS_OsProcess.of(cmd).output;
     }
 

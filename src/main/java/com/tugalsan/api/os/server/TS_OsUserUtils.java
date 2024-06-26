@@ -23,9 +23,9 @@ public class TS_OsUserUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.concat("TK_UserUtils.getUserName: [", getUserName()));
-        sb.add(TGS_StringUtils.concat("TK_UserUtils.getPathCurrent: [", getPathUser().toString()));
-        sb.add(TGS_StringUtils.concat("TK_UserUtils.getPathCurrent: [", getPathCurrent().toString()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getUserName: [", getUserName()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getPathCurrent: [", getPathUser().toString()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getPathCurrent: [", getPathCurrent().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }

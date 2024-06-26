@@ -95,12 +95,12 @@ public class TS_OsPlatformUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.getRamInMB: ", String.valueOf(getRamInMB())));
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.getName: ", getName()));
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.getVersion: ", getVersion()));
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.isWindows: ", String.valueOf(isWindows())));
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.isLinux: ", String.valueOf(isLinux())));
-        sb.add(TGS_StringUtils.concat("TK_OSUtils.getPathAPI: ", getPathAPI().toString()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getRamInMB: ", String.valueOf(getRamInMB())));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getName: ", getName()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getVersion: ", getVersion()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.isWindows: ", String.valueOf(isWindows())));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.isLinux: ", String.valueOf(isLinux())));
+        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getPathAPI: ", getPathAPI().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }

@@ -38,10 +38,10 @@ public class TS_OsJavaUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.concat("TK_JavaUtils.getName: [", getName()));
-        sb.add(TGS_StringUtils.concat("TK_JavaUtils.getVersion: [", getVersion()));
-        sb.add(TGS_StringUtils.concat("TK_JavaUtils.getPathJava: [", getPathJava().toString()));
-        sb.add(TGS_StringUtils.concat("TK_JavaUtils.getPathAPI: [", getPathAPI().toString()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getName: [", getName()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getVersion: [", getVersion()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getPathJava: [", getPathJava().toString()));
+        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getPathAPI: [", getPathAPI().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
