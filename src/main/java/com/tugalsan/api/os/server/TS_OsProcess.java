@@ -18,6 +18,22 @@ import java.util.stream.IntStream;
 
 public class TS_OsProcess {
 
+    @Override
+    public String toString() {
+        var sb = new StringBuilder();
+        sb.append(TS_OsProcess.class.getSimpleName()).append(" {");
+        sb.append("\n   ").append("commandTokens=").append(commandTokens);
+        sb.append("\n   ").append("process=").append(process);
+        sb.append("\n   ").append("pid=").append(pid);
+        sb.append("\n   ").append("output=").append(output);
+        sb.append("\n   ").append("error=").append(error);
+        sb.append("\n   ").append("exception=").append(exception);
+        sb.append("\n   ").append("exitValue=").append(exitValue);
+        sb.append("\n   ").append("elapsed=").append(elapsed);
+        sb.append("\n}");
+        return sb.toString();
+    }
+
     public static Path executionPath() {
         return Path.of(System.getProperty("user.dir"));
     }
