@@ -1,6 +1,5 @@
 package com.tugalsan.api.os.server;
 
-
 import com.tugalsan.api.callable.client.TGS_CallableType0Void;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
@@ -25,6 +24,27 @@ public class TS_OsProcessUtils {
 
     public static Stream<ProcessHandle> list() {
         return ProcessHandle.allProcesses();
+    }
+
+    public static TS_OsProcess serviceStart(String serviceName) {
+        if (!TS_OsPlatformUtils.isWindows()) {
+            throw new UnsupportedOperationException(TS_OsProcessUtils.class.getSimpleName() + ".serviceStart not implemented yet for os other than windows.");
+        }
+        return TS_OsProcess.of("cmd.exe", "/c", "sc", "start", serviceName);
+    }
+
+    public static TS_OsProcess serviceStop(String serviceName) {
+        if (!TS_OsPlatformUtils.isWindows()) {
+            throw new UnsupportedOperationException(TS_OsProcessUtils.class.getSimpleName() + ".serviceStart not implemented yet for os other than windows.");
+        }
+        return TS_OsProcess.of("cmd.exe", "/c", "sc", "stop", serviceName);
+    }
+
+    public static TS_OsProcess serviceInfo(String serviceName) {
+        if (!TS_OsPlatformUtils.isWindows()) {
+            throw new UnsupportedOperationException(TS_OsProcessUtils.class.getSimpleName() + ".serviceStart not implemented yet for os other than windows.");
+        }
+        return TS_OsProcess.of("cmd.exe", "/c", "sc", "query", serviceName, "|", "find", "/C", "\"RUNNING\"");
     }
 
     public static TGS_UnionExcuseVoid runJar(Path jarFile, List<CharSequence> arguments) {

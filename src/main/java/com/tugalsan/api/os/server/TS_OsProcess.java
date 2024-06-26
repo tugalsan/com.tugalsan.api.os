@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TS_OsProcess {
 
@@ -116,6 +117,14 @@ public class TS_OsProcess {
 
     public static TS_OsProcess of(String[] commandTokens) {
         return new TS_OsProcess(commandTokens);
+    }
+
+    public static TS_OsProcess of(CharSequence... commandTokens) {
+        var strArr = new String[commandTokens.length];
+        IntStream.range(0, commandTokens.length).forEach(i -> {
+            strArr[i] = commandTokens[i].toString();
+        });
+        return new TS_OsProcess(strArr);
     }
 
     public static TS_OsProcess ofCode(CharSequence code, CodeType codeType) {
