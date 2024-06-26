@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -22,14 +23,17 @@ public class TS_OsProcess {
     public String toString() {
         var sb = new StringBuilder();
         sb.append(TS_OsProcess.class.getSimpleName()).append(" {");
-        sb.append("\n   ").append("commandTokens=").append(commandTokens);
-        sb.append("\n   ").append("process=").append(process);
+        sb.append("\n   ").append("commandTokens {");
+        Arrays.asList(commandTokens).forEach(ct -> {
+            sb.append("\n   ").append("   ").append(ct);
+        });
+        sb.append("\n   ").append("}");
         sb.append("\n   ").append("pid=").append(pid);
         sb.append("\n   ").append("output=").append(output);
         sb.append("\n   ").append("error=").append(error);
         sb.append("\n   ").append("exception=").append(exception);
         sb.append("\n   ").append("exitValue=").append(exitValue);
-        sb.append("\n   ").append("elapsed=").append(elapsed);
+        sb.append("\n   ").append("elapsed=").append(elapsed.toSeconds());
         sb.append("\n}");
         return sb.toString();
     }
