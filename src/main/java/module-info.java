@@ -10,7 +10,7 @@ module com.tugalsan.api.os {
     requires com.tugalsan.api.charset;
     
     requires com.tugalsan.api.list;
-    requires com.tugalsan.api.callable;
+    requires com.tugalsan.api.function;
     requires com.tugalsan.api.time;
     requires com.tugalsan.api.random;
     requires com.tugalsan.api.stream;
