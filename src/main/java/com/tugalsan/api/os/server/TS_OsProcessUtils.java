@@ -16,8 +16,8 @@ public class TS_OsProcessUtils {
 
     public static boolean isRunningAsAdministrator() {
         synchronized (System.err) {
-            var pref = systemRoot();
             try {
+                var pref = systemRoot();
                 System.setErr(new PrintStream(new OutputStream() {
                     @Override
                     public void write(int b) {
