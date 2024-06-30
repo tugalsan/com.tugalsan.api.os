@@ -3,12 +3,37 @@ package com.tugalsan.api.os.server;
 import com.tugalsan.api.function.client.TGS_Func;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.ProcessHandle.Info;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
+import static java.util.prefs.Preferences.systemRoot;
 import java.util.stream.Stream;
 
 public class TS_OsProcessUtils {
+
+    public static boolean isRunningAsAdministrator() {
+        synchronized (System.err) {
+            var pref = systemRoot();
+            try {
+                System.setErr(new PrintStream(new OutputStream() {
+                    @Override
+                    public void write(int b) {
+                    }
+                }));
+                pref.put("foo", "bar"); // SecurityException on Windows
+                pref.remove("foo");
+                pref.flush(); // BackingStoreException on Linux
+                return true;
+            } catch (BackingStoreException exception) {
+                return false;
+            } finally {
+                System.setErr(System.err);
+            }
+        }
+    }
 
     public static int processorCount() {
         return Runtime.getRuntime().availableProcessors();
