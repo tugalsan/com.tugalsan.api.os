@@ -33,7 +33,7 @@ public class TS_OsProcess {
         sb.append("\n   ").append("error=").append(error);
         sb.append("\n   ").append("exception=").append(exception);
         sb.append("\n   ").append("exitValue=").append(exitValue);
-        sb.append("\n   ").append("elapsed=").append(elapsed.toSeconds());
+        sb.append("\n   ").append("elapsed=").append(elapsed == null ? -1L : elapsed.toSeconds());
         sb.append("\n}");
         return sb.toString();
     }
