@@ -78,7 +78,7 @@ public class TS_OsProcess {
 
     private void process() {
         TGS_UnSafe.run(() -> {
-            var elapsed = TS_TimeElapsed.of();
+            var _elapsed = TS_TimeElapsed.of();
             this.pid = process.pid();
             process.waitFor();
             try (var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -88,7 +88,7 @@ public class TS_OsProcess {
                 error = es.lines().collect(Collectors.joining("\n"));
             }
             this.exitValue = process.exitValue();
-            this.elapsed = elapsed.elapsed_now();
+            this.elapsed = _elapsed.elapsed_now();
         }, e -> this.exception = e);
     }
 
