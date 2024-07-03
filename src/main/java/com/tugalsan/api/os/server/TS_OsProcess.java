@@ -108,17 +108,17 @@ public class TS_OsProcess {
             this.process = Runtime.getRuntime().exec(commandTokens);
             process();
             file.delete();
-        }, exception -> this.exception = exception);
+        }, e -> this.exception = e);
     }
 
     private TS_OsProcess(String[] commandTokens) {
         this(commandTokens, null, null);
     }
 
-    private TS_OsProcess(String[] commandTokens, String[] envp, File dir) {
+    private TS_OsProcess(String[] commandTokens, String[] envp, Path dir) {
         TGS_UnSafe.run(() -> {
             this.commandTokens = commandTokens;
-            this.process = Runtime.getRuntime().exec(commandTokens, envp, dir);
+            this.process = Runtime.getRuntime().exec(commandTokens, envp, dir == null ? null : dir.toFile());
             process();
         }, e -> this.exception = e);
     }
@@ -135,7 +135,7 @@ public class TS_OsProcess {
         return new TS_OsProcess(commandLine);
     }
 
-    public static TS_OsProcess of(String[] commandTokens, String[] envp, File dir) {
+    public static TS_OsProcess of(String[] commandTokens, String[] envp, Path dir) {
         return new TS_OsProcess(commandTokens, envp, dir);
     }
 
