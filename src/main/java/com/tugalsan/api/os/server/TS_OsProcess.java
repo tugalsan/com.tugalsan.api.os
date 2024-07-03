@@ -112,11 +112,15 @@ public class TS_OsProcess {
     }
 
     private TS_OsProcess(String[] commandTokens) {
+        this(commandTokens, null, null);
+    }
+
+    private TS_OsProcess(String[] commandTokens, String[] envp, File dir) {
         TGS_UnSafe.run(() -> {
             this.commandTokens = commandTokens;
-            this.process = Runtime.getRuntime().exec(commandTokens);
+            this.process = Runtime.getRuntime().exec(commandTokens, envp, dir);
             process();
-        }, exception -> this.exception = exception);
+        }, e -> this.exception = e);
     }
 
     private TS_OsProcess(List<String> commandTokens) {
@@ -129,6 +133,10 @@ public class TS_OsProcess {
 
     public static TS_OsProcess of(CharSequence commandLine) {
         return new TS_OsProcess(commandLine);
+    }
+
+    public static TS_OsProcess of(String[] commandTokens, String[] envp, File dir) {
+        return new TS_OsProcess(commandTokens, envp, dir);
     }
 
     public static TS_OsProcess of(List<String> commandTokens) {
