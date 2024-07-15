@@ -51,9 +51,9 @@ public class TS_OsProcess {
         return sb.toString();
     }
 
-    public static String constructJarExecuterString_preview(CharSequence file, List<String> args) {
+    public static String constructJarExecuterString_console_preview(CharSequence file, List<String> args) {
         var sb = new StringBuilder()
-                .append("\"").append(TS_OsJavaUtils.getPathJava()).append("\"")
+                .append("\"").append(TS_OsJavaUtils.getPathJava().resolveSibling("java.exe")).append("\"")
                 .append(" --enable-preview ")
                 .append(" -jar ")
                 .append("\"").append(file).append("\" ");
