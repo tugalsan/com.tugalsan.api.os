@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -51,14 +52,14 @@ public class TS_OsProcess {
         return sb.toString();
     }
 
-    public static String constructJarExecuterString_console_preview(CharSequence file, List<String> args) {
-        var sb = new StringBuilder()
-                .append("\"").append(TS_OsJavaUtils.getPathJava().resolveSibling("java.exe")).append("\"")
-                .append(" --enable-preview ")
-                .append(" -jar ")
-                .append("\"").append(file).append("\" ");
-        args.stream().forEachOrdered(s -> sb.append(" ").append(s));
-        return sb.toString();
+    public static List<String> constructJarExecuterString_console_preview(CharSequence file, List<String> args) {
+        List<String> args_out = new ArrayList();
+        args_out.add("\"" + TS_OsJavaUtils.getPathJava().resolveSibling("java.exe") + "\"");
+        args_out.add("--enable-preview");
+        args_out.add("-jar");
+        args_out.add("\"" + file + "\" ");
+        args_out.addAll(args);
+        return args_out;
     }
 
     public static String constructJarExtractorString(CharSequence file) {
