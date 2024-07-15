@@ -51,6 +51,16 @@ public class TS_OsProcess {
         return sb.toString();
     }
 
+    public static String constructJarExecuterString_preview(CharSequence file, List<String> args) {
+        var sb = new StringBuilder()
+                .append("\"").append(TS_OsJavaUtils.getPathJava()).append("\"")
+                .append(" -jar ")
+                .append(" --enable-preview ")
+                .append("\"").append(file).append("\" ");
+        args.stream().forEachOrdered(s -> sb.append(" ").append(s));
+        return sb.toString();
+    }
+
     public static String constructJarExtractorString(CharSequence file) {
         return TGS_StringUtils.cmn().concat("jar xf ", file);
     }
