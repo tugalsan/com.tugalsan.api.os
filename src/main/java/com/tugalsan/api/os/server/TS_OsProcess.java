@@ -14,8 +14,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TS_OsProcess {
@@ -56,6 +56,8 @@ public class TS_OsProcess {
         List<String> args_out = new ArrayList();
         args_out.add("\"" + TS_OsJavaUtils.getPathJava().resolveSibling("java.exe") + "\"");
         args_out.add("--enable-preview");
+//        args_out.add("-Djdk.jar.maxSignatureFileSize=800000000");
+        args_out.add("-Xmx512m");
         args_out.add("-jar");
         args_out.add("\"" + file + "\" ");
         args_out.addAll(args);
@@ -88,19 +90,34 @@ public class TS_OsProcess {
     }
 
     private void process() {
+        var sjOut = new StringJoiner("\n");
+        var sjErr = new StringJoiner("\n");
+        var _elapsed = TS_TimeElapsed.of();
         TGS_UnSafe.run(() -> {
-            var _elapsed = TS_TimeElapsed.of();
             this.pid = process.pid();
             process.waitFor();
             try (var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                output = is.lines().collect(Collectors.joining("\n"));
+                is.lines().forEach(line -> {
+                    System.out.println(line);
+                    sjOut.add(line);
+                });
             }
             try (var es = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-                error = es.lines().collect(Collectors.joining("\n"));
+                es.lines().forEach(line -> {
+                    System.err.println(line);
+                    sjErr.add(line);
+                });
             }
-            this.exitValue = process.exitValue();
-            this.elapsed = _elapsed.elapsed_now();
-        }, e -> this.exception = e);
+        }, e -> {
+            this.exception = e;
+        });
+        if (process.pid() != 0) {
+            this.pid = process.pid();
+        }
+        this.output = sjOut.toString();
+        this.error = sjErr.toString();
+        this.exitValue = process.exitValue();
+        this.elapsed = _elapsed.elapsed_now();
     }
 
     private TS_OsProcess(CharSequence code, CodeType codeType) {
