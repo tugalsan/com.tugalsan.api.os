@@ -4,6 +4,8 @@ import com.sun.jna.Platform;
 import java.nio.file.*;
 import java.util.*;
 import com.tugalsan.api.charset.client.*;
+import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isLinux;
+import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isWindows;
 import com.tugalsan.api.stream.client.*;
 import com.tugalsan.api.string.client.*;
 import com.tugalsan.api.unsafe.client.*;
@@ -34,14 +36,16 @@ public class TS_OsJavaUtils {
     }
 
     public static String toStringAll(boolean hrStart, boolean hrEnd) {
+        var ClassName = TS_OsJavaUtils.class.getSimpleName();
         var sb = new StringJoiner("\n");
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getName: [", getName()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getVersion: [", getVersion()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getPathJava: [", getPathJava().toString()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_JavaUtils.getPathAPI: [", getPathAPI().toString()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getName: ", getName()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getVersion: ", getVersion()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isWindows: ", String.valueOf(isWindows())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isLinux: ", String.valueOf(isLinux())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getPathAPI: ", getPathAPI().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
