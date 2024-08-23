@@ -83,15 +83,16 @@ public class TS_OsPlatformUtils {
     }
 
     public static String toStringAll(boolean hrStart, boolean hrEnd) {
+        var ClassName = TS_OsPlatformUtils.class.getSimpleName();
         var sb = new StringJoiner("\n");
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getName: ", getName()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getVersion: ", getVersion()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.isWindows: ", String.valueOf(isWindows())));
-        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.isLinux: ", String.valueOf(isLinux())));
-        sb.add(TGS_StringUtils.cmn().concat("TK_OSUtils.getPathAPI: ", getPathAPI().toString()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getName: ", getName()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getVersion: ", getVersion()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isWindows: ", String.valueOf(isWindows())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isLinux: ", String.valueOf(isLinux())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getPathAPI: ", getPathAPI().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
