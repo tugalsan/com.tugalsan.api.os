@@ -19,13 +19,14 @@ public class TS_OsUserUtils {
     }
 
     public static String toStringAll(boolean hrStart, boolean hrEnd) {
+        var ClassName = TS_OsUserUtils.class.getSimpleName();
         var sb = new StringJoiner("\n");
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getUserName: [", getUserName()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getPathCurrent: [", getPathUser().toString()));
-        sb.add(TGS_StringUtils.cmn().concat("TK_UserUtils.getPathCurrent: [", getPathCurrent().toString()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getUserName: [", getUserName()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getPathCurrent: [", getPathUser().toString()));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getPathCurrent: [", getPathCurrent().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
