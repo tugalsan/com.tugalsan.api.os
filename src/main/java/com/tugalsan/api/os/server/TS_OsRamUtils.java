@@ -5,6 +5,10 @@ import java.util.StringJoiner;
 
 public class TS_OsRamUtils {
 
+    public static void freeIt() {
+        System.gc();
+    }
+
     public static double getMaxMemoryInMB() {
         return bytesToMiB(Runtime.getRuntime().maxMemory());
     }
