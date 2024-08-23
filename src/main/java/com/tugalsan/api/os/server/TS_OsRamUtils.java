@@ -35,10 +35,10 @@ public class TS_OsRamUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getMaxMemoryInMB  : ", String.format("%3.2f", getMaxMemoryInMB())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB : ", String.format("%3.2f", getUsedMemoryInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryInMB: ", String.format("%3.2f", getTotalMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getMaxMemoryInMB  : ", String.format("%3.2f", getMaxMemoryInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryInMB : ", String.format("%3.2f", getFreeMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB : ", String.format("%3.2f", getUsedMemoryInMB())));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
