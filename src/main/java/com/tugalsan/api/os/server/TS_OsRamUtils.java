@@ -9,15 +9,15 @@ public class TS_OsRamUtils {
         System.gc();
     }
 
-    public static double getMaxMemoryInMB() {
+    public static double getParameterMaxMemoryInMB() {
         return bytesToMiB(Runtime.getRuntime().maxMemory());
     }
 
     public static double getUsedMemoryInMB() {
-        return bytesToMiB(Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory());
+        return bytesToMiB(Runtime.getRuntime().totalMemory()- Runtime.getRuntime().freeMemory());
     }
 
-    public static double getTotalMemoryInMB() {
+    public static double getJVMReservableMemoryInMB() {
         return bytesToMiB(Runtime.getRuntime().totalMemory());
     }
 
@@ -35,8 +35,8 @@ public class TS_OsRamUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryInMB: ", String.format("%.2f", getTotalMemoryInMB())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getMaxMemoryInMB  : ", String.format("%.2f", getMaxMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryInMB: ", String.format("%.2f", getJVMReservableMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getMaxMemoryInMB  : ", String.format("%.2f", getParameterMaxMemoryInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryInMB : ", String.format("%.2f", getFreeMemoryInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB : ", String.format("%.2f", getUsedMemoryInMB())));
         if (hrStart) {
