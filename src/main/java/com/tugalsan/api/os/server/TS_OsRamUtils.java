@@ -9,20 +9,24 @@ public class TS_OsRamUtils {
         System.gc();
     }
 
-    public static double getParameterMaxMemoryInMB() {
+    public static double getTotalMemoryMaxInMB() {
         return bytesToMiB(Runtime.getRuntime().maxMemory());
     }
 
-    public static double getUsedMemoryInMB() {
-        return bytesToMiB(Runtime.getRuntime().totalMemory()- Runtime.getRuntime().freeMemory());
+    public static double getFreeMemoryMaxInMB() {
+        return getTotalMemoryMaxInMB() - getUsedMemoryInMB();
     }
 
-    public static double getJVMReservableMemoryInMB() {
+    public static double getTotalMemoryCurInMB() {
         return bytesToMiB(Runtime.getRuntime().totalMemory());
     }
 
-    public static double getFreeMemoryInMB() {
+    public static double getFreeMemoryCurInMB() {
         return bytesToMiB(Runtime.getRuntime().freeMemory());
+    }
+
+    public static double getUsedMemoryInMB() {
+        return bytesToMiB(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 
     private static double bytesToMiB(long bytes) {
@@ -35,10 +39,11 @@ public class TS_OsRamUtils {
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryInMB: ", String.format("%.2f", getJVMReservableMemoryInMB())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getMaxMemoryInMB  : ", String.format("%.2f", getParameterMaxMemoryInMB())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryInMB : ", String.format("%.2f", getFreeMemoryInMB())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB : ", String.format("%.2f", getUsedMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryMaxInMB: ", String.format("%.1f", getTotalMemoryMaxInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryMaxInMB : ", String.format("%.1f", getFreeMemoryMaxInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryCurInMB: ", String.format("%.1f", getTotalMemoryCurInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryCurInMB : ", String.format("%.1f", getFreeMemoryCurInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB    : ", String.format("%.1f", getUsedMemoryInMB())));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
