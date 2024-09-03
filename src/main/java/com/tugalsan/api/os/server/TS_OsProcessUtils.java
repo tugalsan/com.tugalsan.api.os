@@ -72,18 +72,20 @@ public class TS_OsProcessUtils {
         return TS_OsProcess.of("cmd.exe", "/c", "sc", "query", serviceName, "|", "find", "/C", "\"RUNNING\"");
     }
 
-    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, List<CharSequence> arguments) {
-        return runJar(inheritIO, jarFile, arguments.stream().toArray(CharSequence[]::new));
-    }
-
-    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, CharSequence... arguments) {
+//    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, List<CharSequence> arguments) {
+//        return runJar(inheritIO, jarFile, arguments.stream().toArray(CharSequence[]::new));
+//    }
+//
+//    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, CharSequence... arguments) {
+    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, CharSequence file_and_arguments) {
         return TGS_UnSafe.call(() -> {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
             var pre = "--enable-preview --add-modules jdk.incubator.vector -jar ";
-            var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "\" " + String.join(" ", arguments);
+//            var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "' " + String.join(" ", arguments);
+            var cmd = pre + file_and_arguments;
 //            d.ci("main", "cmd", cmd);
-            var pb = new ProcessBuilder(java, cmd);
+            var pb = new ProcessBuilder(java + " " + cmd);
             if (inheritIO) {
                 pb.inheritIO();
             }
@@ -96,6 +98,7 @@ public class TS_OsProcessUtils {
 
     public static void addShutdownHook(TGS_Func run) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
             public void run() {
                 try {
                     Thread.sleep(200);
