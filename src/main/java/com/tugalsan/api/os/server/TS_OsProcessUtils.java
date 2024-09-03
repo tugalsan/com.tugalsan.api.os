@@ -1,7 +1,7 @@
 package com.tugalsan.api.os.server;
 
 import com.tugalsan.api.function.client.TGS_Func;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
+import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -72,33 +72,27 @@ public class TS_OsProcessUtils {
         return TS_OsProcess.of("cmd.exe", "/c", "sc", "query", serviceName, "|", "find", "/C", "\"RUNNING\"");
     }
 
-//    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, List<CharSequence> arguments) {
-//        return runJar(inheritIO, jarFile, arguments.stream().toArray(CharSequence[]::new));
-//    }
-//
-//    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, CharSequence... arguments) {
-    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, CharSequence file_and_arguments) {
+    public static TGS_UnionExcuseVoid runJar(Path jarFile, List<CharSequence> arguments) {
+        return runJar(jarFile, arguments.stream().toArray(CharSequence[]::new));
+    }
+
+    public static TGS_UnionExcuseVoid runJar(Path jarFile, CharSequence... arguments) {
         return TGS_UnSafe.call(() -> {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
             var pre = "--enable-preview --add-modules jdk.incubator.vector -jar ";
-//            var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "' " + String.join(" ", arguments);
-            var cmd = pre + file_and_arguments;
+            var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "\" " + String.join(" ", arguments);
 //            d.ci("main", "cmd", cmd);
-            var pb = new ProcessBuilder(java + " " + cmd);
-            if (inheritIO) {
-                pb.inheritIO();
-            }
+            var pb = new ProcessBuilder(java, cmd);
             pb.start();
-            return TGS_UnionExcuse.of(pb);
+            return TGS_UnionExcuseVoid.ofVoid();
         }, e -> {
-            return TGS_UnionExcuse.ofExcuse(e);
+            return TGS_UnionExcuseVoid.ofExcuse(e);
         });
     }
 
     public static void addShutdownHook(TGS_Func run) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
             public void run() {
                 try {
                     Thread.sleep(200);
