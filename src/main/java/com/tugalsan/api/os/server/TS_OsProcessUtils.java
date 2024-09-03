@@ -72,10 +72,12 @@ public class TS_OsProcessUtils {
         return TS_OsProcess.of("cmd.exe", "/c", "sc", "query", serviceName, "|", "find", "/C", "\"RUNNING\"");
     }
 
+    @Deprecated //NOT WORKING PROPERLY, USE TS_OsProcess.of
     public static TGS_UnionExcuseVoid runJar(Path jarFile, List<CharSequence> arguments) {
         return runJar(jarFile, arguments.stream().toArray(CharSequence[]::new));
     }
 
+    @Deprecated //NOT WORKING PROPERLY, USE TS_OsProcess.of
     public static TGS_UnionExcuseVoid runJar(Path jarFile, CharSequence... arguments) {
         return TGS_UnSafe.call(() -> {
             var java = ProcessHandle.current().info().command().get();
