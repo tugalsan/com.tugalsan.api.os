@@ -72,11 +72,11 @@ public class TS_OsProcessUtils {
         return TS_OsProcess.of("cmd.exe", "/c", "sc", "query", serviceName, "|", "find", "/C", "\"RUNNING\"");
     }
 
-    public static TGS_UnionExcuse<ProcessBuilder> runJar(Path jarFile, List<CharSequence> arguments) {
-        return runJar(jarFile, arguments.stream().toArray(CharSequence[]::new));
+    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, List<CharSequence> arguments) {
+        return runJar(inheritIO, jarFile, arguments.stream().toArray(CharSequence[]::new));
     }
 
-    public static TGS_UnionExcuse<ProcessBuilder> runJar(Path jarFile, CharSequence... arguments) {
+    public static TGS_UnionExcuse<ProcessBuilder> runJar(boolean inheritIO, Path jarFile, CharSequence... arguments) {
         return TGS_UnSafe.call(() -> {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
@@ -84,6 +84,9 @@ public class TS_OsProcessUtils {
             var cmd = pre + "\"" + jarFile.toAbsolutePath().toString() + "\" " + String.join(" ", arguments);
 //            d.ci("main", "cmd", cmd);
             var pb = new ProcessBuilder(java, cmd);
+            if (inheritIO) {
+                pb.inheritIO();
+            }
             pb.start();
             return TGS_UnionExcuse.of(pb);
         }, e -> {
