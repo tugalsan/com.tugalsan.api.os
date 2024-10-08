@@ -57,6 +57,11 @@ public class TS_OsPlatformUtils {
         return getName().contains("win");
     }
 
+    public static boolean isWindows9X() {
+        String os = getName();
+        return os.equals("windows 95") || os.equals("windows 98");
+    }
+
     public static boolean isLinux() {
         return getName().contains("linux");
     }
