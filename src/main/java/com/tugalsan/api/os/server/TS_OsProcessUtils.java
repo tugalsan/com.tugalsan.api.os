@@ -1,6 +1,8 @@
 package com.tugalsan.api.os.server;
 
 import com.tugalsan.api.function.client.TGS_Func;
+import com.tugalsan.api.string.client.TGS_StringUtils;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.io.OutputStream;
@@ -13,6 +15,33 @@ import static java.util.prefs.Preferences.systemRoot;
 import java.util.stream.Stream;
 
 public class TS_OsProcessUtils {
+
+    public static TGS_UnionExcuse<List<String>> procesesListJavaCommandlines() {
+        var cmd = "wmic PROCESS where \"name like '%java%'\" get Commandline";
+        var p = TS_OsProcess.of(cmd);
+        if (p.exception != null) {
+            return TGS_UnionExcuse.ofExcuse(p.exception);
+        }
+        return TGS_UnionExcuse.of(TGS_StringUtils.jre().toList(p.output, "\n"));
+    }
+
+    public static TGS_UnionExcuse<String> procesesByJarName_getProcessId(String jarName) {
+        var cmd = "wmic PROCESS where \"name like '%java.exe%' AND CommandLine like '%" + jarName + "%'\"get Processid";
+        var p = TS_OsProcess.of(cmd);
+        if (p.exception != null) {
+            return TGS_UnionExcuse.ofExcuse(p.exception);
+        }
+        return TGS_UnionExcuse.of(p.output);
+    }
+
+    public static TGS_UnionExcuse<String> procesesByJarName_killProcess(String jarName) {
+        var cmd = "wmic PROCESS Where \"name Like '%java.exe%' AND CommandLine like '%" + jarName + "%'\" Call Terminate";
+        var p = TS_OsProcess.of(cmd);
+        if (p.exception != null) {
+            return TGS_UnionExcuse.ofExcuse(p.exception);
+        }
+        return TGS_UnionExcuse.of(p.output);
+    }
 
     public static boolean isRunningAsAdministrator() {
         synchronized (System.err) {
