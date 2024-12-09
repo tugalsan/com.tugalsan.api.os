@@ -41,9 +41,8 @@ public class TS_OsCpuUtils {
         return ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
     }
 
-    public static double getLoad_processorAverage() {
-        var load = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
-        return load < 0 ? -1.0 : load;
+    public static double getLoad_processorAverage_onErrorReturnMinusValue() {
+        return ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
     }
 
 }
