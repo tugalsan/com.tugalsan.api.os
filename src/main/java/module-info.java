@@ -1,6 +1,5 @@
 module com.tugalsan.api.os {
     requires java.prefs;
-    requires java.management;
     requires jdk.management;
     requires com.sun.jna.platform;
     requires com.tugalsan.api.string;
