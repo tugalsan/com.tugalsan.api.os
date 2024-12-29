@@ -10,7 +10,7 @@ public class TS_OsRamUtils {
     }
 
     public static double getPercentageUsed() {
-        return getUsedMemoryInMB()/ getTotalMemoryMaxInMB();
+        return 100 * getUsedMemoryInMB() / getTotalMemoryMaxInMB();
     }
 
     public static double getTotalMemoryMaxInMB() {
