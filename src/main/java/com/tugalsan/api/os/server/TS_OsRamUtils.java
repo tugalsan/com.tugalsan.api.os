@@ -9,6 +9,10 @@ public class TS_OsRamUtils {
         System.gc();
     }
 
+    public static double getPercentageUsed() {
+        return getUsedMemoryInMB()/ getTotalMemoryMaxInMB();
+    }
+
     public static double getTotalMemoryMaxInMB() {
         return bytesToMiB(Runtime.getRuntime().maxMemory());
     }
