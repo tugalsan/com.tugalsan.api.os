@@ -48,6 +48,7 @@ public class TS_OsRamUtils {
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getTotalMemoryCurInMB: ", String.format("%.1f", getTotalMemoryCurInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getFreeMemoryCurInMB : ", String.format("%.1f", getFreeMemoryCurInMB())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getUsedMemoryInMB    : ", String.format("%.1f", getUsedMemoryInMB())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName + ".getPercentageUsed    : ", String.format("%.1f", getPercentageUsed())));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");
         }
