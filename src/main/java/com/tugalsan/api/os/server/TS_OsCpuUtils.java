@@ -2,7 +2,7 @@ package com.tugalsan.api.os.server;
 
 import com.sun.management.OperatingSystemMXBean;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
@@ -15,7 +15,7 @@ public class TS_OsCpuUtils {
     final private static String className = TS_OsCpuUtils.class.getSimpleName();
 
     public static TGS_UnionExcuse<String> getId() {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var process = Runtime.getRuntime().exec("wmic cpu get ProcessorId");
             process.getOutputStream().close();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -84,7 +84,7 @@ public class TS_OsCpuUtils {
     }
 
     public static TGS_UnionExcuse<Double> getLoad_jvm() {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var mbs = ManagementFactory.getPlatformMBeanServer();
             var name = ObjectName.getInstance("java.lang:type=OperatingSystem");
             var list = mbs.getAttributes(name, new String[]{"ProcessCpuLoad"});

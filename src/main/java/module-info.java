@@ -5,7 +5,6 @@ module com.tugalsan.api.os {
     requires com.tugalsan.api.string;
     requires com.tugalsan.api.cast;
     requires com.tugalsan.api.union;
-    requires com.tugalsan.api.unsafe;
     requires com.tugalsan.api.charset;
     requires com.tugalsan.api.list;
     requires com.tugalsan.api.function;

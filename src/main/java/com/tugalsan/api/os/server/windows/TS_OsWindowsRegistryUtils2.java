@@ -1,7 +1,9 @@
 package com.tugalsan.api.os.server.windows;
 
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCEUtils;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
-import com.tugalsan.api.unsafe.client.*;
+
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.prefs.*;
@@ -85,7 +87,7 @@ public class TS_OsWindowsRegistryUtils2 {
     private final Method regDeleteValue;
 
     public static TGS_UnionExcuse<TS_OsWindowsRegistryUtils2> of() {
-        return TGS_UnSafe.call(() -> TGS_UnionExcuse.of(new TS_OsWindowsRegistryUtils2()), e -> TGS_UnionExcuse.ofExcuse(e));
+        return TGS_FuncMTCEUtils.call(() -> TGS_UnionExcuse.of(new TS_OsWindowsRegistryUtils2()), e -> TGS_UnionExcuse.ofExcuse(e));
     }
 
     /**
@@ -101,14 +103,14 @@ public class TS_OsWindowsRegistryUtils2 {
      *
      */
     public String readString(int hkey, CharSequence key, CharSequence valueName, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 return readString(systemRoot, hkey, key, valueName, wow64);
             }
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readString(userRoot, hkey, key, valueName, wow64);
             }
-            return TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readString", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readString", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -123,14 +125,14 @@ public class TS_OsWindowsRegistryUtils2 {
      * @return the value name(s) plus the value(s)
      */
     public Map<String, String> readStringValues(int hkey, String key, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 return readStringValues(systemRoot, hkey, key, wow64);
             }
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readStringValues(userRoot, hkey, key, wow64);
             }
-            return TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringValues", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringValues", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -145,14 +147,14 @@ public class TS_OsWindowsRegistryUtils2 {
      * @return the value name(s)
      */
     public List<String> readStringSubKeys(int hkey, String key, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 return readStringSubKeys(systemRoot, hkey, key, wow64);
             }
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 return readStringSubKeys(userRoot, hkey, key, wow64);
             }
-            return TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringSubKeys", "IllegalArgumentException.hkey=" + hkey);
+            return TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "readStringSubKeys", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -163,23 +165,23 @@ public class TS_OsWindowsRegistryUtils2 {
      * @param key
      */
     public void createKey(int hkey, String key) {
-        TGS_UnSafe.run(() -> {
+        TGS_FuncMTCEUtils.run(() -> {
             int[] ret;
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 ret = createKey(systemRoot, hkey, key);
                 regCloseKey.invoke(systemRoot, new Object[]{ret[0]});
                 if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                    TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
                 }
             }
             if (Objects.equals(hkey, HKEY_CURRENT_USER())) {
                 ret = createKey(userRoot, hkey, key);
                 regCloseKey.invoke(userRoot, new Object[]{ret[0]});
                 if (ret[1] != REG_SUCCESS()) {
-                    TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
+                    TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + ret[1] + "  key=" + key);
                 }
             }
-            TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
+            TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -195,7 +197,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      */
     public void writeStringValue(int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) {
-        TGS_UnSafe.run(() -> {
+        TGS_FuncMTCEUtils.run(() -> {
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 writeStringValue(systemRoot, hkey, key, valueName, value, wow64);
                 return;
@@ -204,7 +206,7 @@ public class TS_OsWindowsRegistryUtils2 {
                 writeStringValue(userRoot, hkey, key, valueName, value, wow64);
                 return;
             }
-            TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
+            TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.hkey=" + hkey);
         });
     }
 
@@ -215,7 +217,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * @param key
      */
     public void deleteKey(int hkey, CharSequence key) {
-        TGS_UnSafe.run(() -> {
+        TGS_FuncMTCEUtils.run(() -> {
             var rc = -1;
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 rc = deleteKey(systemRoot, hkey, key);
@@ -224,7 +226,7 @@ public class TS_OsWindowsRegistryUtils2 {
                 rc = deleteKey(userRoot, hkey, key);
             }
             if (rc != REG_SUCCESS()) {
-                TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.key=" + key);
+                TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.key=" + key);
             }
         });
     }
@@ -240,7 +242,7 @@ public class TS_OsWindowsRegistryUtils2 {
      * registry view, or KEY_WOW64_64KEY to force access to 64-bit registry view
      */
     public void deleteValue(int hkey, CharSequence key, CharSequence value, int wow64) {
-        TGS_UnSafe.run(() -> {
+        TGS_FuncMTCEUtils.run(() -> {
             var rc = -1;
             if (Objects.equals(hkey, HKEY_LOCAL_MACHINE())) {
                 rc = deleteValue(systemRoot, hkey, key, value, wow64);
@@ -248,14 +250,14 @@ public class TS_OsWindowsRegistryUtils2 {
                 rc = deleteValue(userRoot, hkey, key, value, wow64);
             }
             if (rc != REG_SUCCESS()) {
-                TGS_UnSafe.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + rc + "  key=" + key + "  value=" + value);
+                TGS_FuncMTUCEUtils.thrw(TS_OsWindowsRegistryUtils2.class.getSimpleName(), "createKey", "IllegalArgumentException.rc=" + rc + "  key=" + key + "  value=" + value);
             }
         });
     }
 
     //========================================================================
     private int deleteValue(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var handles = (int[]) regOpenKey.invoke(root, new Object[]{
                 hkey, toCstr(key), KEY_ALL_ACCESS() | wow64});
             if (handles[1] != REG_SUCCESS()) {
@@ -271,7 +273,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private int deleteKey(Preferences root, int hkey, CharSequence key) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             return ((Integer) regDeleteKey.invoke(root, new Object[]{
                 hkey, toCstr(key)
             }));// can REG_NOTFOUND, REG_ACCESSDENIED, REG_SUCCESS
@@ -280,7 +282,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private String readString(Preferences root, int hkey, CharSequence key, CharSequence value, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var handles = (int[]) regOpenKey.invoke(root, new Object[]{
                 hkey, toCstr(key), KEY_READ() | wow64});
             if (handles[1] != REG_SUCCESS()) {
@@ -296,7 +298,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private Map<String, String> readStringValues(Preferences root, int hkey, CharSequence key, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var results = new HashMap<String, String>();
             var handles = (int[]) regOpenKey.invoke(root, new Object[]{
                 hkey, toCstr(key), KEY_READ() | wow64});
@@ -322,7 +324,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private List<String> readStringSubKeys(Preferences root, int hkey, CharSequence key, int wow64) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             List<String> results = new ArrayList();
             var handles = (int[]) regOpenKey.invoke(root, new Object[]{
                 hkey, toCstr(key), KEY_READ() | wow64
@@ -336,7 +338,7 @@ public class TS_OsWindowsRegistryUtils2 {
             var count = info[0]; // Fix: info[2] was being used here with wrong results. Suggested by davenpcj, confirmed by Petrucio
             var maxlen = info[3]; // value length max
             IntStream.range(0, count).forEachOrdered(index -> {
-                TGS_UnSafe.run(() -> {
+                TGS_FuncMTCEUtils.run(() -> {
                     var name = (byte[]) regEnumKeyEx.invoke(root, new Object[]{
                         handles[0], index, maxlen + 1
                     });
@@ -350,7 +352,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private int[] createKey(Preferences root, int hkey, CharSequence key) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             return (int[]) regCreateKeyEx.invoke(root, new Object[]{
                 hkey, toCstr(key)
             });
@@ -359,7 +361,7 @@ public class TS_OsWindowsRegistryUtils2 {
 
     //========================================================================
     private void writeStringValue(Preferences root, int hkey, CharSequence key, CharSequence valueName, CharSequence value, int wow64) {
-        TGS_UnSafe.run(() -> {
+        TGS_FuncMTCEUtils.run(() -> {
             var handles = (int[]) regOpenKey.invoke(root, new Object[]{
                 hkey, toCstr(key), KEY_ALL_ACCESS() | wow64});
             regSetValueEx.invoke(root, new Object[]{
@@ -372,7 +374,7 @@ public class TS_OsWindowsRegistryUtils2 {
     //========================================================================
     // utility
     private byte[] toCstr(CharSequence str) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var result = new byte[str.length() + 1];
             for (var i = 0; i < str.length(); i++) {
                 result[i] = (byte) str.charAt(i);

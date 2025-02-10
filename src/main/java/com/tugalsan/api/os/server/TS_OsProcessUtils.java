@@ -1,10 +1,8 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.function.client.TGS_Func;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
-import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.ProcessHandle.Info;
@@ -13,6 +11,8 @@ import java.util.List;
 import java.util.prefs.BackingStoreException;
 import static java.util.prefs.Preferences.systemRoot;
 import java.util.stream.Stream;
+import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCE;
+import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
 
 public class TS_OsProcessUtils {
 
@@ -108,7 +108,7 @@ public class TS_OsProcessUtils {
 
     @Deprecated //NOT WORKING PROPERLY, USE TS_OsProcess.of
     public static TGS_UnionExcuseVoid runJar(Path jarFile, CharSequence... arguments) {
-        return TGS_UnSafe.call(() -> {
+        return TGS_FuncMTCEUtils.call(() -> {
             var java = ProcessHandle.current().info().command().get();
 //            d.ci("main", "cmd", java);
             var pre = "--enable-preview --add-modules jdk.incubator.vector -jar ";
@@ -122,7 +122,7 @@ public class TS_OsProcessUtils {
         });
     }
 
-    public static void addShutdownHook(TGS_Func run) {
+    public static void addShutdownHook(TGS_FuncMTUCE run) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
@@ -137,7 +137,7 @@ public class TS_OsProcessUtils {
     }
 //
 //    @Deprecated
-//    public static void addShutdownSignal(TGS_Func run) {
+//    public static void addShutdownSignal(TGS_FuncMTUCE run) {
 //        jdk.internal.misc.Signal.handle(new Signal("INT"), signal -> run.run());
 //    }
 }
