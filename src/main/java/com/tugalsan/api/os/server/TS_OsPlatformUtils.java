@@ -36,7 +36,7 @@ public class TS_OsPlatformUtils {
             return null;
         }
         if (TGS_CastUtils.isDouble(verStr)) {
-            return TGS_CastUtils.toDouble(verStr);
+            return TGS_CastUtils.toDouble(verStr).orElseThrow();
         }
         var alphaIdx = -1;
         for (var i = 0; i < verStr.length(); i++) {
@@ -50,7 +50,7 @@ public class TS_OsPlatformUtils {
         if (verStr.isEmpty()) {
             return null;
         }
-        return TGS_CastUtils.toDouble(verStr);
+        return TGS_CastUtils.toDouble(verStr).orElse(null);
     }
 
     public static boolean isWindows() {
