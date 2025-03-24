@@ -1,12 +1,12 @@
 package com.tugalsan.api.os.server;
 
 import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 
 public class TS_OsBrowserUtils {
 
     public static TGS_UnionExcuseVoid launch(String url) {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             if (TS_OsPlatformUtils.isMac()) {
                 var macUtils = Class.forName("com.apple.mrj.MRJFileUtils");
                 var openURL = macUtils.getDeclaredMethod("openURL", String.class);

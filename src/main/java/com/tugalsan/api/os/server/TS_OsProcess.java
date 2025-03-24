@@ -4,8 +4,8 @@ import com.tugalsan.api.list.server.TS_ListCastUtils;
 import com.tugalsan.api.random.server.TS_RandomUtils;
 import com.tugalsan.api.string.client.TGS_StringUtils;
 import com.tugalsan.api.time.server.TS_TimeElapsed;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
-import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -94,7 +94,7 @@ public class TS_OsProcess {
         var sjOut = new StringJoiner("\n");
         var sjErr = new StringJoiner("\n");
         var _elapsed = TS_TimeElapsed.of();
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             this.pid = process.pid();
             process.waitFor();
             try (var is = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -122,10 +122,10 @@ public class TS_OsProcess {
     }
 
     private TS_OsProcess(CharSequence code, CodeType codeType) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             var fileSuffix = codeType == CodeType.BAT ? "bat" : (codeType == CodeType.VBS ? "vbs" : null);
             if (fileSuffix == null) {
-                TGS_FuncMTUCEUtils.thrw(TS_OsProcess.class.getSimpleName(),
+                TGS_FuncMTUUtils.thrw(TS_OsProcess.class.getSimpleName(),
                         "TS_Process(CharSequence code, CodeType codeType:" + codeType + ")",
                         "CodeType not recognized!");
             }
@@ -145,7 +145,7 @@ public class TS_OsProcess {
     }
 
     private TS_OsProcess(String[] commandTokens, String[] envp, Path dir) {
-        TGS_FuncMTCEUtils.run(() -> {
+        TGS_FuncMTCUtils.run(() -> {
             this.commandTokens = commandTokens;
             this.process = Runtime.getRuntime().exec(commandTokens, envp, dir == null ? null : dir.toFile());
             process();

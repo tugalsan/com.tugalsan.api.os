@@ -4,7 +4,7 @@ import com.sun.jna.Platform;
 import java.nio.file.*;
 import java.util.*;
 import com.tugalsan.api.charset.client.*;
-import com.tugalsan.api.function.client.maythrow.checkedexceptions.TGS_FuncMTCEUtils;
+import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
 import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isLinux;
 import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isWindows;
 import com.tugalsan.api.stream.client.*;
@@ -54,7 +54,7 @@ public class TS_OsJavaUtils {
     }
 
     public static Path getJarPath() {
-        return TGS_FuncMTCEUtils.call(() -> {
+        return TGS_FuncMTCUtils.call(() -> {
             var codeSource = TS_OsJavaUtils.class.getProtectionDomain().getCodeSource();
 //            System.out.println("codeSource:" + codeSource);
             var path = codeSource.getLocation().toURI().getPath();
