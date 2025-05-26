@@ -7,6 +7,11 @@
   
     <dependencies>
         <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>6.8.1</version>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>com.tugalsan.api.charset</artifactId>
             <version>${project.version}</version>
@@ -80,7 +85,7 @@
                 <version>3.13.0</version>
                 <configuration>
                     <release>24</release><!--prop.jdk-->
-                     <!--  <enablePreview>true</enablePreview>
+                    <!--  <enablePreview>true</enablePreview>
                     <compilerArgs>
                        <arg>- -add-modules</arg>
                         <arg>jdk.incubator.vector</arg>

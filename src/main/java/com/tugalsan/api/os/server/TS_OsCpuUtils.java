@@ -6,9 +6,11 @@ import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUt
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 import java.util.StringJoiner;
 import javax.management.Attribute;
 import javax.management.ObjectName;
+import oshi.SystemInfo;
 
 public class TS_OsCpuUtils {
 
@@ -65,6 +67,18 @@ public class TS_OsCpuUtils {
         return TGS_UnionExcuse.of(percentage_with_1_decimal_point);
     }
 
+    public static TGS_UnionExcuse<Integer> getLoad_percent_oshi(long delayMillis) {
+        return TGS_FuncMTCUtils.call(() -> {
+            var loads = new SystemInfo()
+                    .getHardware()
+                    .getProcessor()
+                    .getProcessorCpuLoad(delayMillis);
+            var val = (int) (Arrays.stream(loads).average().orElseThrow() * 100);
+            return val > 0 ? TGS_UnionExcuse.of(val) : TGS_UnionExcuse.ofExcuse(className, "getLoad_percent_oshi", "val < 0");
+        }, e -> TGS_UnionExcuse.ofExcuse(e));
+    }
+
+    @Deprecated //NOT WORKING
     public static TGS_UnionExcuse<Double> getLoad_process() {
         var value = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class).getProcessCpuLoad();
         if (value < 0) {
@@ -74,6 +88,7 @@ public class TS_OsCpuUtils {
         return TGS_UnionExcuse.of(percentage_with_1_decimal_point);
     }
 
+    @Deprecated //NOT WORKING
     public static TGS_UnionExcuse<Double> getLoad_system() {
         var value = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class).getCpuLoad();
         if (value < 0) {
@@ -83,6 +98,7 @@ public class TS_OsCpuUtils {
         return TGS_UnionExcuse.of(percentage_with_1_decimal_point);
     }
 
+    @Deprecated //NOT WORKING
     public static TGS_UnionExcuse<Double> getLoad_jvm() {
         return TGS_FuncMTCUtils.call(() -> {
             var mbs = ManagementFactory.getPlatformMBeanServer();
