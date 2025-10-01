@@ -1,19 +1,17 @@
 package com.tugalsan.api.os.server.windows;
 
+import module com.sun.jna.platform;
 import java.util.*;
 import java.nio.file.*;
-import com.sun.jna.Native;
-import com.sun.jna.win32.*;
-import com.sun.jna.platform.win32.WinDef.UINT_PTR;
 
 public class TS_OsWindowsWallpaper {
 
     public static void set(Path file) {
         SPI.INSTANCE.SystemParametersInfo(
-                new UINT_PTR(SPI.SPI_SETDESKWALLPAPER),
-                new UINT_PTR(0),
+                new WinDef.UINT_PTR(SPI.SPI_SETDESKWALLPAPER),
+                new WinDef.UINT_PTR(0),
                 file.toString(),
-                new UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
+                new WinDef.UINT_PTR(SPI.SPIF_UPDATEINIFILE | SPI.SPIF_SENDWININICHANGE));
     }
 
     private interface SPI extends StdCallLibrary {
@@ -29,10 +27,10 @@ public class TS_OsWindowsWallpaper {
         });
 
         boolean SystemParametersInfo(
-                UINT_PTR uiAction,
-                UINT_PTR uiParam,
+                WinDef.UINT_PTR uiAction,
+                WinDef.UINT_PTR uiParam,
                 String pvParam,
-                UINT_PTR fWinIni
+                WinDef.UINT_PTR fWinIni
         );
     }
 }

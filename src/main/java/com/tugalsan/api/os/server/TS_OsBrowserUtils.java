@@ -1,7 +1,7 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
+import module com.tugalsan.api.union;
+import module com.tugalsan.api.function;
 
 public class TS_OsBrowserUtils {
 

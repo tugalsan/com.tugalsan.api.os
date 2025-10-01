@@ -1,12 +1,13 @@
 package com.tugalsan.api.os.server;
 
-import com.sun.jna.Platform;
-import com.tugalsan.api.cast.client.TGS_CastUtils;
+import module com.tugalsan.api.charset;
+import module com.tugalsan.api.stream;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.cast;
+import module com.sun.jna.platform;
 import java.nio.file.*;
 import java.util.*;
-import com.tugalsan.api.charset.client.*;
-import com.tugalsan.api.stream.client.*;
-import com.tugalsan.api.string.client.*;
+
 
 public class TS_OsPlatformUtils {
 

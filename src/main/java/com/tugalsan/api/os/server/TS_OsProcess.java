@@ -1,23 +1,15 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.list.server.TS_ListCastUtils;
-import com.tugalsan.api.random.server.TS_RandomUtils;
-import com.tugalsan.api.string.client.TGS_StringUtils;
-import com.tugalsan.api.time.server.TS_TimeElapsed;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUUtils;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
-import java.util.StringTokenizer;
-import java.util.stream.IntStream;
+import module com.tugalsan.api.list;
+import module com.tugalsan.api.random;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.time;
+import module com.tugalsan.api.function;
+import java.io.*;
+import java.nio.file.*;
+import java.time.*;
+import java.util.*;
+import java.util.stream.*;
 
 public class TS_OsProcess {
 

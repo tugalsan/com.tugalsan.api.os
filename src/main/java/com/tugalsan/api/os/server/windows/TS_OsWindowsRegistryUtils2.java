@@ -1,9 +1,7 @@
 package com.tugalsan.api.os.server.windows;
 
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTUUtils;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
-
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.union;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.prefs.*;

@@ -1,7 +1,7 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.string.client.TGS_StringUtils;
-import java.util.StringJoiner;
+import module com.tugalsan.api.string;
+import java.util.*;
 
 public class TS_OsRamUtils {
 

@@ -1,18 +1,14 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.string.client.TGS_StringUtils;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
-import com.tugalsan.api.union.client.TGS_UnionExcuseVoid;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.lang.ProcessHandle.Info;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.prefs.BackingStoreException;
-import static java.util.prefs.Preferences.systemRoot;
-import java.util.stream.Stream;
-import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTU;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.string;
+import module com.tugalsan.api.union;
+import java.io.*;
+import java.lang.ProcessHandle.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.prefs.*;
+import java.util.stream.*;
 
 public class TS_OsProcessUtils {
 
@@ -46,7 +42,7 @@ public class TS_OsProcessUtils {
     public static boolean isRunningAsAdministrator() {
         synchronized (System.err) {
             try {
-                var pref = systemRoot();
+                var pref = Preferences.systemRoot();
                 System.setErr(new PrintStream(new OutputStream() {
                     @Override
                     public void write(int b) {

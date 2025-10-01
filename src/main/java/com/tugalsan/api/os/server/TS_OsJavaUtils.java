@@ -1,15 +1,12 @@
 package com.tugalsan.api.os.server;
 
-import com.sun.jna.Platform;
+import module com.tugalsan.api.charset;
+import module com.tugalsan.api.function;
+import module com.tugalsan.api.stream;
+import module com.tugalsan.api.string;
+import module com.sun.jna.platform;
 import java.nio.file.*;
 import java.util.*;
-import com.tugalsan.api.charset.client.*;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isLinux;
-import static com.tugalsan.api.os.server.TS_OsPlatformUtils.isWindows;
-import com.tugalsan.api.stream.client.*;
-import com.tugalsan.api.string.client.*;
-
 
 public class TS_OsJavaUtils {
 
@@ -44,8 +41,8 @@ public class TS_OsJavaUtils {
         }
         sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getName: ", getName()));
         sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getVersion: ", getVersion()));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isWindows: ", String.valueOf(isWindows())));
-        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isLinux: ", String.valueOf(isLinux())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isWindows: ", String.valueOf(TS_OsPlatformUtils.isWindows())));
+        sb.add(TGS_StringUtils.cmn().concat(ClassName, ".isLinux: ", String.valueOf(TS_OsPlatformUtils.isLinux())));
         sb.add(TGS_StringUtils.cmn().concat(ClassName, ".getPathAPI: ", getPathAPI().toString()));
         if (hrStart) {
             sb.add("-----------------------------------------------------------------------------------");

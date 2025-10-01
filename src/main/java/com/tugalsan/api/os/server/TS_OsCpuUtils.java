@@ -1,16 +1,13 @@
 package com.tugalsan.api.os.server;
 
-import com.sun.management.OperatingSystemMXBean;
-import com.tugalsan.api.union.client.TGS_UnionExcuse;
-import com.tugalsan.api.function.client.maythrowexceptions.checked.TGS_FuncMTCUtils;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import module com.tugalsan.api.union;
+import module com.tugalsan.api.function;
+import module com.github.oshi;
+import module jdk.management;
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
-import java.util.StringJoiner;
-import javax.management.Attribute;
-import javax.management.ObjectName;
-import oshi.SystemInfo;
+import java.io.*;
+import com.sun.management.*;
+import java.util.*;
 
 public class TS_OsCpuUtils {
 

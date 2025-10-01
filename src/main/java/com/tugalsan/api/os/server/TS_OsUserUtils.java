@@ -1,8 +1,8 @@
 package com.tugalsan.api.os.server;
 
-import com.tugalsan.api.string.client.*;
-import java.nio.file.Path;
-import java.util.StringJoiner;
+import module com.tugalsan.api.string;
+import java.nio.file.*;
+import java.util.*;
 
 public class TS_OsUserUtils {
 
