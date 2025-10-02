@@ -8,10 +8,11 @@ import java.lang.management.ManagementFactory;
 import java.io.*;
 import com.sun.management.*;
 import java.util.*;
+import java.util.function.*;
 
 public class TS_OsCpuUtils {
 
-    final private static String className = TS_OsCpuUtils.class.getSimpleName();
+    final private static Supplier<String> className = StableValue.supplier(() -> TS_OsCpuUtils.class.getSimpleName());
 
     public static TGS_UnionExcuse<String> getId() {
         return TGS_FuncMTCUtils.call(() -> {
