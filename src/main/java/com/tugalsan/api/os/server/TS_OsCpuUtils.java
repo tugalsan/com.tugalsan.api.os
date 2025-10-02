@@ -43,7 +43,7 @@ public class TS_OsCpuUtils {
     }
 
     public static int getProcessorCount() {
-        return ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+        return Runtime.getRuntime().availableProcessors();
     }
 
     @Deprecated //WHAT THE HELL IS THIS
